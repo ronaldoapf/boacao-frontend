@@ -1,65 +1,84 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Image from 'next/image'
+import Header from '../components/Header'
+
+import styles from '../styles/pages/Home.module.scss'
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div className={styles.containerPrincipal}>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Boação | Home</title>
+        <link rel="icon" href="favicon.svg" />
+        <link
+          href="https://fonts.googleapis.com/css?family=Roboto:400,500,700"
+          rel="stylesheet"
+        />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <Header />
+      <main className={styles.containerMainContent}>
+        <section className={styles.containerAboutUs}>
+          <h2>Conectando você com quem precisa</h2>
+          <p>
+            Cada boa ação que você pratica, é uma luz que você acende em torno
+            dos próprios passos. Lugar onde você poderá ajudar a quem precise e
+            também ser ajudado
+          </p>
+          <div className={styles.containerButton}>
+            <button>Quero ajudar</button>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+            <button>Preciso de ajuda</button>
+          </div>
+        </section>
+        <section className={styles.containerImage}>
+          <Image
+            src="/assets/BOACAO_preto_em_rede.svg"
+            width={200}
+            height={200}
+            alt="Logo"
+          />
+        </section>
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+      <hr className={styles.divider} />
+
+      <aside className={styles.containerAside}>
+        <section>
+          <h2>Nossa Equipe</h2>
+          <hr />
+        </section>
+
+        <section className={styles.containerDevelopers}>
+          <div className={styles.roundedDevelopers}>
+            <figure>
+              <Image
+                src="/assets/ronaldo.jpeg"
+                width={200}
+                height={200}
+                alt="Logo"
+                objectFit="cover"
+              />
+            </figure>
+
+            <span>Ronaldo Alves</span>
+          </div>
+
+          <div className={styles.roundedDevelopers}>
+            <figure>
+              <Image
+                src="/assets/franciele.png"
+                width={200}
+                height={200}
+                alt="Logo"
+                objectFit="cover"
+              />
+            </figure>
+
+            <span>Franciele Cristina</span>
+          </div>
+        </section>
+      </aside>
     </div>
   )
 }
