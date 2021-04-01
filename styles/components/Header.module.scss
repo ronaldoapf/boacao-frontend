@@ -1,0 +1,22 @@
+.containerHeader {
+  height: 80px;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px #344966 solid;
+
+  .containerLogin {
+    margin-right: 20px;
+    ul {
+      list-style: none;
+      display: flex;
+      li {
+        &:first-child {
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+}
