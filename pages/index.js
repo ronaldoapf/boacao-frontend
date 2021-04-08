@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className={styles.containerPrincipal}>
       <Head>
-        <title>Boação | Home</title>
+        <title>Boação | Login</title>
         <link rel="icon" href="favicon.svg" />
         <link
           href="https://fonts.googleapis.com/css?family=Roboto:400,500,700"
