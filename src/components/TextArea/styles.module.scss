@@ -1,0 +1,23 @@
+.textAreaContainer {
+  display: inline-flex;
+  min-width: 0;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  border: 1px #CCCCCC solid;
+  padding: 5px 10px;
+  border-radius: 8px;
+  width: 320px;
+  height: 160px;
+
+  label {
+    font-size: 10px;
+  }
+
+  textarea {
+    border: 0;
+    outline: none;
+    resize: none;
+    height: 160px;
+    font-size: 14px;
+  }
+}
