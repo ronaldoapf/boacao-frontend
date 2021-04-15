@@ -1,0 +1,54 @@
+.registerPage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+
+  figure{
+    width: 50%;
+  }
+
+  .containerRegister {
+    width: 30%;
+    height: 100vh;
+    background-color: #F6F6F6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    figure {
+      width: 250px;
+      margin-bottom: 24px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      
+      div{
+        margin-bottom: 20px;
+      }
+
+      .more {
+        display: flex;
+        justify-content: center;
+        font-weight: bold;
+        margin-top: 20px;
+        a {
+          color: #FEBD59;
+          text-decoration: none;
+
+          &:hover {
+            color: #D4C326;
+            transition: .3s ease-in-out;
+          }
+        }
+        span { 
+          color: #FEBD59;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
