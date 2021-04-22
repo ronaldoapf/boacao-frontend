@@ -23,31 +23,16 @@
     }
 
     form {
+      width: 260px;
       display: flex;
       flex-direction: column;
-      
-      div{
-        margin-bottom: 20px;
-      }
-
-      .more {
-        display: flex;
-        justify-content: center;
+      a{
+        text-decoration: none;
+        cursor: pointer;
+        color: #FEBD59;
         font-weight: bold;
+        text-align: center;
         margin-top: 20px;
-        a {
-          color: #FEBD59;
-          text-decoration: none;
-
-          &:hover {
-            color: #D4C326;
-            transition: .3s ease-in-out;
-          }
-        }
-        span { 
-          color: #FEBD59;
-          font-weight: bold;
-        }
       }
     }
   }

@@ -4,7 +4,6 @@ import cx from 'classnames';
 import styles from './styles.module.scss';
 
 const Button = ({onClick, children, type, variant}) => {
-	console.log(variant);
 	return (
 		<button 
 			onClick={onClick} 
@@ -24,7 +23,7 @@ export default Button;
 
 Button.propTypes = {
 	onClick: PropTypes.func,
-	children: PropTypes.string,
+	children: PropTypes.any,
 	type: PropTypes.string,
 	variant: PropTypes.string
 };

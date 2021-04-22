@@ -1,38 +1,76 @@
 import React from 'react';
+import * as yup from 'yup';
+import Helmet from 'react-helmet';
+import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import schema from './validationSchema';
+
+import Logo from '../../components/Logo';
 import Input from '../../components/Input';
+import Select from '../../components/Select'
 import Button from '../../components/Button';
 import Background from '../../assets/background.png';
-import Logo from '../../components/Logo';
+
 import styles from './styles.module.scss';
 
 const Register = () => {
 	return (
-		<section className={styles.registerPage}>
-			<div className={styles.containerRegister}>
-				<Logo />
-				<form>
-					<Input label="Nome completo" name="name" type="text" />
-					<Input label="E-mail" name="email" type="email" />
-					<Input label="Telefone para contato" name="phone" type="text" />
-					<Input label="Senha" name="password" type="password" />
-					<Input label="Confirmar senha" name="confirmPassword" type="text" />
-					<Button variant="filled">
-            Cadastrar
-					</Button>
-					<div className={styles.more}>
-						<p>
-							<Link to="/login">
-                Já possui conta?
+		<>
+			<Helmet>
+				<title>Cadastro | Boação</title>
+			</Helmet>
+			
+			<section className={styles.registerPage}>
+				<div className={styles.containerRegister}>
+					<Logo />
+				<Formik
+					initialValues={{}}
+					validationSchema={schema}
+					onSubmit={values => console.log(values)}
+				>
+					{({ values }) => (
+						<Form>
+							<Input
+								name="name"
+								label="Nome completo"
+								type="text"
+							/>
+							<Input
+								name="email"
+								label="E-mail"
+								type="email"
+							/>
+							<Input
+								name="phone"
+								label="Telefone para contato"
+								type="number"
+							/>
+							<Input
+								name="password"
+								label="Senha"
+								type="password"
+							/>
+							<Input
+								name="confirmPassword"
+								label="Confirmar senha"
+								type="password"
+							/>
+							<Button variant="filled" type="submit">
+								Cadastrar
+							</Button>
+
+							<Link to="/sign-in">
+								Já possui conta?
 							</Link>
-						</p>
-					</div>
-				</form>
-			</div>
-			<figure>
-				<img src={Background} alt="Imagem de fundo"/>
-			</figure>
-		</section>
+						</Form>
+					)}
+				</Formik>
+				</div>
+				<figure>
+					<img src={Background} alt="Imagem de fundo"/>
+				</figure>
+			</section>
+		</>
 	);
 };
 
