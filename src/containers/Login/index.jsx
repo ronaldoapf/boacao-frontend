@@ -1,11 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+
+import Logo from '../../components/Logo';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Background from '../../assets/background.png';
-import Logo from '../../components/Logo';
 import { getUsers, getUsersByID }  from '../../services/user';
 import styles from './styles.module.scss';
+import Select from '../../components/Select'
 
 const Login = () => {
 	const [user, setUser] = useState({});
@@ -21,28 +25,33 @@ const Login = () => {
 	return (
 		<section className={styles.loginPage}>
 			<div className={styles.containerLogin}>
-				{/* <pre>
-					{JSON.stringify(user, null, 1)}
-				</pre> */}
 				<Logo />
-				<form>
-					<Input label="E-mail" name="email" type="email" />
-					<Input label="Senha" name="password" type="password" />
-					<Button variant="filled">
-							Entrar
-					</Button>
-					<div className={styles.more}>
-						<p>
-							<Link to="/registrar">
-									Quer se cadastrar
-							</Link>
-							{' '} ou {' '}
-							<Link to="/ajuda">
-									precisa de ajuda
-							</Link> ?
-						</p>
-					</div>
-				</form>
+
+				<Formik
+					initialValues={{}}
+					validationSchema={yup.object().shape({
+						test: yup.string().required()
+					})}
+					onSubmit={values => console.log(values)}
+				>
+					{({ values }) => (
+						<Form>
+							{console.log({ values })}
+							<Input
+								name="test"
+								label="Teste"
+							/>
+							<Select
+								name="select"
+								label="Teste Select"
+								options={[{ value: 1, label: 'Franco'}, { value: 2, label: 'Ronaldo' }]} 
+							/>
+							<Button variant="filled" type="submit">
+								Entrar
+							</Button>
+						</Form>
+					)}
+				</Formik>
 			</div>
 			<figure className={styles.background}>
 				<img src={Background} alt="Imagem de fundo"/>

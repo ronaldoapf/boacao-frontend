@@ -1,24 +1,40 @@
-import React from 'react';
+import React, { memo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.module.scss';
 
-const Input = ({type, label, name, placeholder, value}) => {
-	return (
-		<>
-			<div className={styles.containerInput}>
-				<label>{label}</label>
-				<input type={type} name={name} value={value} placeholder={placeholder}/>
-			</div>
-		</>
-	);
-};
+import { InputContainer } from './style';
+import withField from '../Field/withField';
 
-export default Input;
+const Input = ({
+	type,
+	name,
+	icon: IconComponent,
+	value,
+	label,
+	error,
+	onChange,
+	isSelect,
+	...props
+}) => (
+	<>
+		<InputContainer value={value} isSelect={isSelect} error={error}>
+			<label>{label}</label>
+			<input type={type} name={name} value={value} onChange={onChange} {...props} />
+			{IconComponent && <IconComponent />}
+		</InputContainer>
+	</>
+)
 
 Input.propTypes = {
+	icon: PropTypes.func,
+	error: PropTypes.bool,
 	type: PropTypes.string,
-	label: PropTypes.string,
 	name: PropTypes.string,
+	label: PropTypes.string,
+	value: PropTypes.string,
+	onChange: PropTypes.func,
+	isSelect: PropTypes.bool,
 	placeholder: PropTypes.string,
-	value: PropTypes.string
 };
+
+export default withField(memo(Input));
+
