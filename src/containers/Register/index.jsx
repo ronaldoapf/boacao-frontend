@@ -46,6 +46,16 @@ const Register = () => {
 								type="number"
 							/>
 							<Input
+								name="address"
+								label="Telefone para contato"
+								type="number"
+							/>
+							<Input
+								name="phone"
+								label="Telefone para contato"
+								type="number"
+							/>
+							<Input
 								name="password"
 								label="Senha"
 								type="password"

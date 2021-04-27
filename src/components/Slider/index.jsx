@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 
 import { Slider as SliderComponent } from './style.js';
 
-const Slider = ({ children }) => {
+const Slider = ({ children, height }) => {
   return (
-    <SliderComponent>
+    <SliderComponent height={height}>
       {children}
     </SliderComponent>
   );
 }
 
 Slider.propTypes = {
-  children: PropTypes.object
+  children: PropTypes.object,
+  height: PropTypes.string
 }
 
 export default Slider;
