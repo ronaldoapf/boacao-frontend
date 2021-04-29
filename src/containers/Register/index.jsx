@@ -1,32 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as yup from 'yup';
 import Helmet from 'react-helmet';
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import schema from './validationSchema';
+import { Redirect } from 'react-router-dom';
 
 import Logo from '../../components/Logo';
 import Input from '../../components/Input';
 import Select from '../../components/Select'
 import Button from '../../components/Button';
 import Background from '../../assets/background.png';
+import UserApi from '../../commons/resources/api/user'
+import { ToastContainer, toast } from 'react-toastify';
 
 import styles from './styles.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
+	const [redirect, setRedirect] = useState(false)
+	
+	const handleSubmit = (values) => {
+		UserApi.create(values).then(response => {
+			const user = response.data.user;
+			if(user) toast.success('Usuário cadastrado com sucesso! Faça seu login');
+			
+			setTimeout(() => {
+				setRedirect(true);
+			}, 2000);
+
+		}).catch(error => {
+			const { response } = error;
+			const message = response.data.message;
+			if(message === 'Email already exists') toast.error('E-mail de usuário já cadastrado no sistema');
+		});
+	}
+
 	return (
 		<>
 			<Helmet>
 				<title>Cadastro | Boação</title>
 			</Helmet>
 			
+			<ToastContainer />
+			{redirect && <Redirect to="/sign-in" />}
+
 			<section className={styles.registerPage}>
 				<div className={styles.containerRegister}>
 					<Logo />
 				<Formik
 					initialValues={{}}
 					validationSchema={schema}
-					onSubmit={values => console.log(values)}
+					onSubmit={handleSubmit}
 				>
 					{({ values }) => (
 						<Form>
@@ -43,17 +68,6 @@ const Register = () => {
 							<Input
 								name="phone"
 								label="Telefone para contato"
-								type="number"
-							/>
-							<Input
-								name="address"
-								label="Telefone para contato"
-								type="number"
-							/>
-							<Input
-								name="phone"
-								label="Telefone para contato"
-								type="number"
 							/>
 							<Input
 								name="password"
@@ -61,7 +75,7 @@ const Register = () => {
 								type="password"
 							/>
 							<Input
-								name="confirmPassword"
+								name="passwordConfirmation"
 								label="Confirmar senha"
 								type="password"
 							/>

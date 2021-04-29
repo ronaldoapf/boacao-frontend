@@ -2,22 +2,41 @@ import React, { useCallback, useEffect, useState } from 'react';
 import * as yup from 'yup';
 import Helmet from 'react-helmet';
 import { Formik, Form } from 'formik';
+import { Link, Redirect } from 'react-router-dom';
 import schema from './validationSchema';
-import { Link } from 'react-router-dom';
 
 import Logo from '../../components/Logo';
 import Input from '../../components/Input';
 import Modal from '../../components/Modal';
 import Button from '../../components/Button';
 import Background from '../../assets/background.png';
-import { getUsers, getUsersByID }  from '../../services/user';
+import { ToastContainer, toast } from 'react-toastify';
+import AuthApi from '../../commons/resources/api/auth';
+
 import styles from './styles.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 	const [open, setOpen] = useState(false);
+	const [redirect, setRedirect] = useState(false);
+
+	const handleSubmit = (values) => {
+		AuthApi.login(values).then(response => {
+			const { token, user } = response.data
+			setRedirect({to: '/donate', state: true});
+			if(token) localStorage.setItem('token', token)
+			if(user) localStorage.setItem('nameUser', user.name); 
+		}).catch(error => {
+			const { response } = error;
+			const message = response.data.message;
+			if(message === 'User or password are incorrect') toast.error('E-mail ou senha inválidos');
+		});
+	}	
 
 	return (
 		<>
+			<ToastContainer />
+			{redirect.state && <Redirect to={redirect.to}/>}
 			{open && (
 				<Modal setOpen={setOpen}>
         <div className={styles.contentModal}>
@@ -57,7 +76,7 @@ const Login = () => {
 					<Formik
 						initialValues={{}}
 						validationSchema={schema}
-						onSubmit={values => console.log(values)}
+						onSubmit={handleSubmit}
 					>
 						{({ values }) => (
 							<Form>
@@ -67,7 +86,7 @@ const Login = () => {
 									type="email"
 								/>
 								<Input
-									name="password	"
+									name="password"
 									label="Senha"
 									type="password"
 								/>

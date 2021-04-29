@@ -13,19 +13,20 @@ const Field = ({
   <FormikField name={name}>
     {({
       field,
-      form: { errors, setFieldValue }
+      form: { touched, errors, setFieldValue }
     }) => {
       const fieldError = errors[name]
+      const hasError = fieldError && touched[name]
       return (
         <FieldContainer>
           <Component
             label={label}
-            error={Boolean(fieldError)}
+            error={hasError}
             setFieldValue={setFieldValue}
             {...field}
             {...props}
           />
-          {fieldError && <ErrorText>{fieldError}</ErrorText>}
+          {hasError && <ErrorText>{fieldError}</ErrorText>}
         </FieldContainer>
       )
     }}
