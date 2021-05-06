@@ -6,6 +6,7 @@ import Slider from '../../components/Slider';
 import Container from '../../components/Container';
 import SearchAndCategories from '../../components/SearchAndCategories';
 import CardDonation from '../../components/CardDonation';
+import Loader from '../../components/Loader';
 
 const Home = () => {
 

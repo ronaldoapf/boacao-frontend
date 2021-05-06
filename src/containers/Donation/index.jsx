@@ -17,7 +17,7 @@ const Donation = () => {
   return (
     <>
 			<Helmet>
-				<title>Boação - Nova doação</title>
+				<title>Nova doação | Boação</title>
 			</Helmet>
 	    <Header />
       <Container>

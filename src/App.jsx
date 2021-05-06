@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './containers/Home';
 import Login from './containers/Login';
+import Profile from './containers/Profile';
 import Donation from './containers/Donation';
 import Register from './containers/Register';
 import PageNotFound from './containers/PageNotFound';
@@ -21,6 +22,9 @@ function App() {
 				</Route>
 				<Route path="/donate">
 					<Donation />
+				</Route>
+				<Route>
+					<Profile path="/profile" />
 				</Route>
 				<Route>
 					<PageNotFound />

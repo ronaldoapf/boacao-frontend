@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import { Backdrop, CustomModal, HeaderModal } from './style';
 import CloseIcon from '@material-ui/icons/Close';
 
-const Modal = ({ setOpen, children }) => {
-  return (
+const portal = document.getElementById('portal');
+
+
+const Modal = ({ isOpen, onClose, children }) => {
+  if(!isOpen) return null;
+
+  return ReactDOM.createPortal(
     <Backdrop> 
       <CustomModal>
-        <HeaderModal onClick={() => setOpen(false)}>
+        <HeaderModal onClick={onClose}>
           <CloseIcon />
         </HeaderModal>
         {children}
       </CustomModal>  
-    </Backdrop> 
+    </Backdrop>,
+    portal,
   );
 }
 

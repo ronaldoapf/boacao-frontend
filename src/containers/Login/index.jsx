@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import Helmet from 'react-helmet';
 import { Formik, Form } from 'formik';
@@ -9,36 +10,49 @@ import Logo from '../../components/Logo';
 import Input from '../../components/Input';
 import Modal from '../../components/Modal';
 import Button from '../../components/Button';
+import Loader from '../../components/Loader';
 import Background from '../../assets/background.png';
+
 import { ToastContainer, toast } from 'react-toastify';
 import AuthApi from '../../commons/resources/api/auth';
+import User from '../../utils/Storage/user';
 
 import styles from './styles.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 	const [open, setOpen] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [redirect, setRedirect] = useState(false);
+	const history = useHistory();
 
 	const handleSubmit = (values) => {
-		AuthApi.login(values).then(response => {
-			const { token, user } = response.data
-			setRedirect({to: '/donate', state: true});
-			if(token) localStorage.setItem('token', token)
-			if(user) localStorage.setItem('nameUser', user.name); 
-		}).catch(error => {
-			const { response } = error;
-			const message = response.data.message;
-			if(message === 'User or password are incorrect') toast.error('E-mail ou senha inválidos');
-		});
+		setIsLoading(true);
+		setTimeout(() => {
+			AuthApi.login(values).then(response => {
+				const { token, user } = response.data;
+				if(token) User.setToken(token);
+				if(user) localStorage.setItem('nameUser', user.name); 
+				history.push('/');
+			}).catch(error => {
+				const { response } = error;
+				if(!response) {
+					setIsLoading(false);
+					toast.error('Desculpe, estamos com problemas em nossos servidores. Tente novamente mais tarde.');
+					return;
+				}
+				const message = response.data.message;
+				if(message === 'User or password are incorrect') toast.error('E-mail ou senha inválidos');
+				setIsLoading(false);
+			});
+		}, 2000)
 	}	
 
 	return (
 		<>
+			<Loader isLoading={isLoading}/>
 			<ToastContainer />
-			{redirect.state && <Redirect to={redirect.to}/>}
-			{open && (
-				<Modal setOpen={setOpen}>
+				<Modal isOpen={open} onClose={() => setOpen(false)}>
         <div className={styles.contentModal}>
           <h1>Recuperação de senha</h1>
           <p>
@@ -66,7 +80,6 @@ const Login = () => {
 
         </div>
       </Modal>
-			)}
 			<Helmet>
 				<title>Login | Boação</title>
 			</Helmet>

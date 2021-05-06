@@ -10,6 +10,7 @@ import Logo from '../../components/Logo';
 import Input from '../../components/Input';
 import Select from '../../components/Select'
 import Button from '../../components/Button';
+import Loader from '../../components/Loader';
 import Background from '../../assets/background.png';
 import UserApi from '../../commons/resources/api/user'
 import { ToastContainer, toast } from 'react-toastify';
@@ -19,8 +20,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
 	const [redirect, setRedirect] = useState(false)
+	const [isLoading, setIsLoading] = useState(false);
 	
 	const handleSubmit = (values) => {
+		setIsLoading(true);1
 		UserApi.create(values).then(response => {
 			const user = response.data.user;
 			if(user) toast.success('Usuário cadastrado com sucesso! Faça seu login');
@@ -38,6 +41,7 @@ const Register = () => {
 
 	return (
 		<>
+			<Loader isLoading={isLoading} />
 			<Helmet>
 				<title>Cadastro | Boação</title>
 			</Helmet>
