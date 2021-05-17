@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { memo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.module.scss';
 
-const TextArea = ({label}) => {
-	return (
-		<div className={styles.textAreaContainer}>
+import { InputContainer } from './style';
+import withField from '../Field/withField';
+
+const TextArea = ({
+	type,
+	name,
+	value,
+	label,
+	error,
+	onChange,
+	...props
+}) => (
+	<>
+		<InputContainer value={value} error={error}>
 			<label>{label}</label>
-			<textarea type="text" />
-		</div>
-	);
-};
-
-export default TextArea;
+			<textarea 
+        type={type} 
+        name={name} 
+        value={value} 
+        onChange={onChange} 
+        {...props}
+      />
+		</InputContainer>
+	</>
+)
 
 TextArea.propTypes = {
-	label: PropTypes.string
+	error: PropTypes.bool,
+	type: PropTypes.string,
+	name: PropTypes.string,
+	label: PropTypes.string,
+	value: PropTypes.string,
+	onChange: PropTypes.func,
+	placeholder: PropTypes.string,
 };
+
+export default withField(memo(TextArea));
+

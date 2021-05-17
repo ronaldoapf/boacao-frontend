@@ -1,40 +1,59 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "./containers/Home";
-import Login from "./containers/Login";
-import Profile from "./containers/Profile";
-import Donation from "./containers/Donation";
-import Register from "./containers/Register";
-import PageNotFound from "./containers/PageNotFound";
-import Sandbox from "./containers/Sandbox";
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-function App() {
+import AuthProvider from 'contexts/AuthContext';
+import useAuth from 'contexts/AuthContext/useAuth';
+
+import Home from 'containers/Home';
+import Login from 'containers/Login';
+import Donate from 'containers/Donate';
+import Sandbox from 'containers/Sandbox';
+import Profile from 'containers/Profile';
+import Register from 'containers/Register';
+import Donation from 'containers/Donation';
+import PageNotFound from 'containers/PageNotFound';
+import PrivateRoute from "components/Routes/PrivateRoute";
+
+const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact>
-          <Home />
-        </Route>
-        <Route path="/sign-in">
-          <Login />
-        </Route>
-        <Route path="/sign-up">
-          <Register />
-        </Route>
-        <Route path="/donate">
-          <Donation />
-        </Route>
-        <Route path="/profile">
-          <Profile />
-        </Route>
-        <Route path="/sandbox">
-          <Sandbox />
-        </Route>
-        <Route>
-          <PageNotFound />
-        </Route>
-      </Switch>
-    </Router>
+    <BrowserRouter>
+      <AuthProvider>
+        <Switch>
+          <Route 
+            path="/" 
+            exact 
+            component={Home}
+          />
+          <Route 
+            path="/sign-in" 
+            component={Login} 
+          />
+          <Route 
+            path="/sign-up"
+            component={Register} 
+          />
+          <Route 
+            path="/donation"
+            component={Donation} 
+          />
+          <Route 
+            path="/sandbox"
+            component={Sandbox}
+          />
+          <PrivateRoute 
+            path="/donate" 
+            component={Donate}
+          />
+          <PrivateRoute 
+            path="/profile" 
+            component={Profile} 
+          />
+           <Route 
+            component={PageNotFound} 
+          />
+        </Switch>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

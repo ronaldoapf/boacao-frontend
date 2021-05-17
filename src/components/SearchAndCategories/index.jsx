@@ -10,7 +10,7 @@ import {
   CategoryIcon, 
 } from './style';
 
-import Input from '../../components/Input';
+import Input from 'components/Input';
 import TvIcon from '@material-ui/icons/Tv';
 import DeckIcon from '@material-ui/icons/Deck';
 import PetsIcon from '@material-ui/icons/Pets';

@@ -6,13 +6,13 @@ import { Link } from 'react-router-dom';
 import schema from './validationSchema';
 import { Redirect } from 'react-router-dom';
 
-import Logo from '../../components/Logo';
-import Input from '../../components/Input';
-import Select from '../../components/Select'
-import Button from '../../components/Button';
-import Loader from '../../components/Loader';
-import Background from '../../assets/background.png';
-import UserApi from '../../commons/resources/api/user'
+import Logo from 'components/Logo';
+import Input from 'components/Input';
+import Select from 'components/Select'
+import Button from 'components/Button';
+import Loader from 'components/Loader';
+import Background from 'assets/background.png';
+import UserApi from 'commons/resources/api/user'
 import { ToastContainer, toast } from 'react-toastify';
 
 import styles from './styles.module.scss';
@@ -48,7 +48,6 @@ const Register = () => {
 			
 			<ToastContainer />
 			{redirect && <Redirect to="/sign-in" />}
-
 			<section className={styles.registerPage}>
 				<div className={styles.containerRegister}>
 					<Logo />

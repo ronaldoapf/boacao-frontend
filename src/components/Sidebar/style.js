@@ -7,6 +7,24 @@ const ContainerSidebar = styled.aside`
   height: 100vh;
   position: absolute;
   background-color: red;
-  padding: 16px 0 16px 16px;
+  padding: 16px 16px;
 `
-export { ContainerSidebar };
+
+const HeaderSidebar = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button {
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    justify-content: space-between;
+  }
+`
+
+export { 
+  ContainerSidebar,
+  HeaderSidebar
+ };

@@ -1,16 +1,18 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import PropTypes from "prop-types";
 import _cloneDeep from "lodash.clonedeep";
+
+import withField from "../Field/withField";
 import { useDropzone } from "react-dropzone";
 import CloseIcon from "@material-ui/icons/Close";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
-import withField from "../Field/withField";
 import { Container, PhotosContainer } from "./style";
 
 const PhotoUploader = ({ maxFiles, name, value, setFieldValue }) => {
   const onDrop = useCallback((files) => {
+    const reader = new FileReader();
     if (value.length >= maxFiles) return;
     const newFiles = [
       ...value,

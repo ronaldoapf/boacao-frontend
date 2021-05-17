@@ -3,7 +3,7 @@ import api from '.'
 const baseURL = '/session'
 
 const AuthApi = {
-  login(payload){
+  signIn(payload){
     return api.post(baseURL, payload);    
   }
 } 

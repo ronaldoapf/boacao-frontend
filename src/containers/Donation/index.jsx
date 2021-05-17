@@ -1,73 +1,58 @@
-import React, { useState } from 'react'
-import { Formik, Form } from 'formik';
+import React from 'react';
 
-import Helmet from 'react-helmet';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import Header from '../../components/Header';
-import Container from '../../components/Container';
-import Checkboxes from '../../components/Checkboxes';
+import Header from 'components/Header';
+import { 
+  InfoDonation, 
+  HeaderDonation, 
+  PersonalProfile, 
+  DonationContainer, 
+  DescriptionDonation, 
+} from './style';
+import Container from 'components/Container';
+import Assignment from 'assets/assignment.png';
+import GuardaRoupa from 'assets/guardaRoupa.jpg';
 
-import BrasilApi from '../../utils/brasilAPI'
-
-import { ContainerDonation } from './styles'
 const Donation = () => {
-  const [local, setLocal] = useState(false);
-  
   return (
     <>
-			<Helmet>
-				<title>Nova doação | Boação</title>
-			</Helmet>
-	    <Header />
+      <Header />
       <Container>
-        <ContainerDonation>
-          <h1>
-            Nova doação
-          </h1>
-          <Formik
-						initialValues={{}}
-						validationSchema={null}
-						onSubmit={values => console.log(values)}
-					>
-						{({ values }) => (
-							<Form>
-								<Input
-									name="title"
-									label="Título"
-									type="text"
-								/>
-                <Input
-									name="description"
-									label="Descrição"
-									type="text"
-								/>
-                <Input
-									name="category"
-									label="Categoria"
-									type="text"
-								/>
-                <Input
-									name="cep"
-									label="CEP"
-									type="text"
-								/>
-                <Checkboxes label="Usar minha localização como endereço"/>
-                <Input
-									name="estado"
-									label="Estado"
-									type="text"
-								/>
-								<Button variant="filled" type="submit">
-									Cadastrar doação
-								</Button>
-							</Form>
-						)}
-					</Formik>
-        </ContainerDonation>
+        <DonationContainer>
+          <figure>
+            <img src={GuardaRoupa} alt="Imagem da doação"/>
+          </figure>
+          <InfoDonation>
+            <HeaderDonation>
+              <div>
+                <img src={Assignment} alt="Ícone da categoria" />
+                <label>
+                  Móveis
+                </label>
+              </div>
+              <h1>
+                Guarda-roupas
+              </h1>
+            </HeaderDonation>
+            
+            <DescriptionDonation>
+              Guarda roupas com 4 Portas de Correr Kappesberg.
+              Muito novo, com apenas 3 meses de uso
+            </DescriptionDonation>
+
+            <PersonalProfile>
+              <span>
+                Publicado por:
+              </span>
+
+              <figure>
+                <img src="" alt="" />
+              </figure>
+            </PersonalProfile>
+          </InfoDonation>
+        </DonationContainer>
       </Container>
     </>
   );
-}
+};
 
-export default Donation
+export default Donation;

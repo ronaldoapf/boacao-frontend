@@ -4,11 +4,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import { ContainerCheckbox } from './styles';
 
-const Checkboxes = ({ color, label }) => {
+const Checkboxes = ({ color, label, isChecked }) => {
   const [checked, setChecked] = useState(false);
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
+    isChecked(event.target.checked);
   }
 
   return (
@@ -26,7 +27,8 @@ const Checkboxes = ({ color, label }) => {
 
 Checkboxes.propTypes = {
   color: PropTypes.string.required,
-  label: PropTypes.string
+  label: PropTypes.string,
+  isChecked: PropTypes.func,
 }
 
 Checkboxes.defaultProps = {

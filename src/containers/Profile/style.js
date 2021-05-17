@@ -7,18 +7,22 @@ const ContainerProfile = styled.div`
 const UserInformation = styled.section`
   width: 30%;
   margin-top: 32px;
-  h1 { margin-bottom: 32px; }
+  
+  h1 { 
+    margin-bottom: 32px; 
+  }
+
   form { 
     width: 320px; 
     
     button {
-      float: right;
       width: 50%;
+      float: right;
     }
   }
 `;
 
-const UserDonation = styled.section`
+const DonationsList = styled.section`
   width: 70%;
   header { 
     width: 100%;
@@ -57,33 +61,35 @@ const CardDonation = styled.div`
   height: 100px;
   display: flex;
   align-items: center;
+  background-color: #C4C4C4;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 
   figure {
     width: 100px;
+    height: 100px;
     img { 
       width: 100px;
       height: 100px;
       border-top-left-radius: 8px;
       border-bottom-left-radius: 8px;
-
     }
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 24px;
   }
 `;
 
 const InfoDonation = styled.div`
-  display: flex;
   width: 100%;
-  justify-content: space-between;
-  flex-direction: column;
+  height: 100%;
+  display: flex;
   padding-left: 32px;
+  flex-direction: column;
+  justify-content: center;
 
   div {
-    display: flex;
-    align-items: center;
-  }
-
-  figure {
-    width: 24px;
     img {
       width: 24px;
       height: 24px;
@@ -94,16 +100,50 @@ const InfoDonation = styled.div`
 const OptionsDonation = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  button {
+
+    border: none;
+    outline: none;
+    display: flex;
+    background: transparent;
+
+    &:nth-child(2) {
+      margin: 0 24px;
+    }
+
+    figure {
+      width: 24px;
+      display: flex;
+      align-items: center;
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
 `;
 
 const HeaderDonation = styled.div`
-  
+  display: flex;
+  flex-direction: column;
+
+  div {
+    display: flex;
+    align-items: center;
+    
+    label {
+      margin-top: 4px;
+      margin-left: 6px;
+    }
+  }
 `;
 
 export {
   ContainerProfile,
   UserInformation,
-  UserDonation,
+  DonationsList,
   CardDonation,
   InfoDonation,
   OptionsDonation,

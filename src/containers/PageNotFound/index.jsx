@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Container from '../../components/Container';
+import Container from 'components/Container';
 import { NotFoundContent }  from './style';
 import KeyboardBackspaceOutlinedIcon from '@material-ui/icons/KeyboardBackspaceOutlined';
-import Logo from '../../components/Logo';
+import Logo from 'components/Logo';
 
 
 const PageNotFound = () => {
