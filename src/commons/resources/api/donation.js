@@ -1,6 +1,5 @@
-import api from '.'
+import api, { multipartApi } from '.'
 import Storage from 'utils/Storage';
-
 
 const baseURL = '/donation'
 
@@ -11,17 +10,8 @@ api.interceptors.request.use(config => {
 })
 
 const DonationApi = {
-  createDonation(payload, token) {
-    let config;
-    if(token) {
-      config = {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    }
-    
-    return api.post(baseURL, payload, config);    
+  createDonation(payload) {
+    return multipartApi.post(baseURL, payload);
   },
 
   listDonations(id) {

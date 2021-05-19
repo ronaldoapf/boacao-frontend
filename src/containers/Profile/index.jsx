@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Form, Formik } from "formik";
 import { history, useHistory } from 'react-router-dom';
 
@@ -103,7 +103,7 @@ const Profile = () => {
               {({ values }) => {
                 return (
                 <Form>
-                  {/* <PhotoUploader maxFiles={1} name="photos" /> */}
+                  <PhotoUploader maxFiles={1} name="photos" />
                   <Input
                    name="name" 
                    label="Nome completo" 

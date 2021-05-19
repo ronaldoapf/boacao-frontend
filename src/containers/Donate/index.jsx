@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Formik, Form } from 'formik';
 
 import Helmet from 'react-helmet';
@@ -20,6 +20,7 @@ import { ContainerDonation } from './styles'
 import Loader from 'components/Loader';
 import { responsiveFontSizes } from '@material-ui/core';
 import { toast, ToastContainer } from 'react-toastify';
+import { fireEvent } from '@testing-library/dom';
 
 const Donate = () => {
   const [local, setLocal] = useState(false);
@@ -45,15 +46,28 @@ const Donate = () => {
 	}, []);
 
 	const handleSubmit = (values) => {
-		console.log(values);
-			DonationApi.createDonation(values, null).then(response => {
-				const { data, status, statusText } = response;
-				if(data) toast.success('Doação cadastrada com sucesso');
-				console.log({response, data})
-			}).catch(error => {
-				const { response } = error;
-				console.log({error, response})
-			});
+		const { files, ...rest } = values;
+		console.log(files);
+		const formData = new FormData();
+		// files?.forEach(item => {
+		// 	formData.append(
+		// 		'files', 
+		// 		item
+		// 	)
+		// })
+		formData.append('files', files[0]);
+		formData.append('data', JSON.stringify(rest));
+		console.log(formData);
+
+		DonationApi.createDonation(formData).then(response => {
+			const { data, status, statusText } = response;
+			if(data) toast.success('Doação cadastrada com sucesso');
+			console.log({response, data})
+		}).catch(error => {
+			const { response } = error;
+			console.log({error, response})
+		});
+
 	}
 
   return (
@@ -111,7 +125,7 @@ const Donate = () => {
 										/>
 									</>
 								}
-								<PhotoUploader maxFiles={1} type="string" name="file" />
+								<PhotoUploader maxFiles={5} type="string" name="files" />
 								<Button variant="filled" type="submit">
 									Cadastrar doação
 								</Button>

@@ -3,11 +3,26 @@ import styled from 'styled-components';
 const DonationContainer = styled.section`
   display: flex;
   padding-top: 34px;
+
+  figure {
+    margin: 0;
+  }
 `;
 
 
 const InfoDonation = styled.section`
+  margin-left: 24px;
 
+  button {
+    width: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      margin-left: 8px;
+    }
+  }
 `;
 
 const HeaderDonation = styled.header`
@@ -47,10 +62,72 @@ const DescriptionDonation = styled.p`
 `;
 
 const PersonalProfile = styled.div`
+  margin-bottom: 22px;
+  margin-top: 18px;
+
+  span {
+    color: #666666;
+    font-size: 14px;
+  }
+
+  > div {
+    display: flex;
+    figure {
+      margin-top: 4px;
+      img {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: 24px;
+      }
+    }
+
+    div {
+      margin-left: 8px;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      
+      label {
+        font-size: 18px;
+        font-weight: bold;
+        color: #000000;
+      }
+
+      a {
+        font-size: 12px;
+        text-decoration: none;
+        color: #000000;
+      }
+    }
+  }
+`;
+
+const IconAndText = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    color: #666666;
+  } 
+
+  span {
+    margin-left: 12px;
+    color: #000000;
+    font-size: 16px;
+  }
   
+  &:not(:last-child){
+    margin-bottom: 12px;
+  }
+
+  &:last-child{
+    margin-bottom: 28px;
+  }
 `;
 
 export {
+  IconAndText,
   InfoDonation,
   HeaderDonation,
   PersonalProfile,
