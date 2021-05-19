@@ -1,25 +1,43 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { 
+	useState, 
+	useContext 
+} from 'react';
 import * as yup from 'yup';
 import Helmet from 'react-helmet';
 import { Formik, Form } from 'formik';
-import schema from './validationSchema';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
-import Logo from '../../components/Logo';
-import Input from '../../components/Input';
-import Modal from '../../components/Modal';
-import Button from '../../components/Button';
-import Background from '../../assets/background.png';
-import { getUsers, getUsersByID }  from '../../services/user';
+import schema from './validationSchema';
+import Logo from 'components/Logo';
+import Input from 'components/Input';
+import Modal from 'components/Modal';
+import Button from 'components/Button';
+import Loader from 'components/Loader';
+import Background from 'assets/background.png';
+import { ToastContainer } from 'react-toastify';
+
+import useAuth from 'contexts/AuthContext/useAuth';
+
 import styles from './styles.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 	const [open, setOpen] = useState(false);
+	const [redirect, setRedirect] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const history = useHistory();
+  const { signIn } = useAuth();
+
+	const handleSubmit = (values) => {
+		signIn(values);
+		history.push("/");
+	}	
 
 	return (
 		<>
-			{open && (
-				<Modal setOpen={setOpen}>
+			<Loader isLoading={isLoading}/>
+			<ToastContainer />
+				<Modal isOpen={open} onClose={() => setOpen(false)}>
         <div className={styles.contentModal}>
           <h1>Recuperação de senha</h1>
           <p>
@@ -47,7 +65,6 @@ const Login = () => {
 
         </div>
       </Modal>
-			)}
 			<Helmet>
 				<title>Login | Boação</title>
 			</Helmet>
@@ -57,7 +74,7 @@ const Login = () => {
 					<Formik
 						initialValues={{}}
 						validationSchema={schema}
-						onSubmit={values => console.log(values)}
+						onSubmit={handleSubmit}
 					>
 						{({ values }) => (
 							<Form>
@@ -67,7 +84,7 @@ const Login = () => {
 									type="email"
 								/>
 								<Input
-									name="password	"
+									name="password"
 									label="Senha"
 									type="password"
 								/>
@@ -88,7 +105,6 @@ const Login = () => {
 										>
 											esqueceu sua senha
 										</button>
-										 ?
 									</p>
 								</div>
 							</Form>
@@ -99,7 +115,6 @@ const Login = () => {
 					<img src={Background} alt="Imagem de fundo"/>
 				</figure>
 			</section>
-		
 		</>
 	);
 };

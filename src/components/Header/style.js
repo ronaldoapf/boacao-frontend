@@ -28,4 +28,11 @@ const Header = styled.header`
   }
 `;
 
-export { Header }
+const ExitButton = styled.button`
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+`;
+
+export { Header, ExitButton }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Card, FooterCard, Info } from './style';
-import GuardaRoupa from '../../assets/guardaRoupa.jpg';
+import GuardaRoupa from 'assets/guardaRoupa.jpg';
 import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
 import LocalShippingOutlinedIcon from '@material-ui/icons/LocalShippingOutlined';
 

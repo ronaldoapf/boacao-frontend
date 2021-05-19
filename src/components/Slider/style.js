@@ -3,11 +3,11 @@ import styled from 'styled-components';
 const Slider = styled.div`
   width: 100%;
   display: flex;
-  height: 450px;
+  height: ${props => props.height};
   overflow-x: auto;
   align-items: center;
 
-  div {
+  > div {
     margin-right: 32px;
   }
 

@@ -1,12 +1,16 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 
-import Header from '../../components/Header';
-import Slider from '../../components/Slider';
-import Container from '../../components/Container';
-import CardDonation from '../../components/CardDonation';
+import Header from 'components/Header';
+import Slider from 'components/Slider';
+import Container from 'components/Container';
+import SearchAndCategories from 'components/SearchAndCategories';
+import CardDonation from 'components/CardDonation';
+import Loader from 'components/Loader';
+import { ToastContainer } from 'react-toastify';
 
 const Home = () => {
+
   return (
     <>
       <Helmet>
@@ -14,8 +18,10 @@ const Home = () => {
       </Helmet>
       <Header />
       <Container>
+			<ToastContainer />
+      <SearchAndCategories options={[]}/>
         <h4 style={{ marginTop: "32px"}}>Últimas doações</h4>
-        <Slider>
+        <Slider height="450px">
           <CardDonation />
           <CardDonation />
           <CardDonation />

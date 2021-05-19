@@ -5,7 +5,9 @@ const schema = yup.object().shape({
   email: yup.string().required('O campo é obrigatório'),
   phone: yup.string().required('O campo é obrigatório'),
   password: yup.string().required('O campo é obrigatório'),
-  confirmPassword: yup.string().required('O campo é obrigatório')
+  passwordConfirmation: yup.string().required('O campo é obrigatório').oneOf([
+    yup.ref('password'), null
+  ], 'As senhas devem ser iguais')
 });
 
 export default schema;
