@@ -155,6 +155,7 @@ const Profile = () => {
               </h1>
             )}
             {userDonations.map(donation => {
+              console.log(donation)
               return (
                 <>
                 <CardDonation key={donation.id}>
@@ -165,9 +166,9 @@ const Profile = () => {
                     <HeaderDonation>
                       <div>
                         <img src={Assignment} alt="Ícone da Categoria" />
-                        <label>Móveis</label>
+                        <label>{donation?.category.title}</label>
                       </div>
-                      <h1>Guarda Roupa</h1>
+                      <h1>{donation?.title}</h1>
                     </HeaderDonation>
                   </InfoDonation>
 

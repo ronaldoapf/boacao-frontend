@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import Header from 'components/Header';
 import { 
@@ -5,14 +6,20 @@ import {
   InfoDonation, 
   HeaderDonation, 
   PersonalProfile, 
+  RelatedDonations,
   DonationContainer, 
-  DescriptionDonation, 
+  DescriptionDonation,
 } from './style';
 
+import DonationApi from 'commons/resources/api/donation';
+
+import Slider from 'components/Slider';
 import Button from 'components/Button';
 import Container from 'components/Container';
 import Assignment from 'assets/assignment.png';
 import GuardaRoupa from 'assets/guardaRoupa.jpg';
+import CardDonation from 'components/CardDonation';
+
 import Ronaldo from 'assets/ronaldo.jpeg';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 
@@ -21,6 +28,24 @@ import EventIcon from '@material-ui/icons/Event';
 import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 
 const Donation = () => {
+  const [donation, setDonation] = useState([]);
+
+  useEffect(() => {
+    const pathname = window.location.pathname;
+    const splittedPathname = pathname.split("/");
+    const id = splittedPathname.pop();
+
+    DonationApi.showSpecificDonation(id)
+    .then(response => {
+      const { data } = response;
+      if(data) setDonation(data);
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }, [])
+
   return (
     <>
       <Header />
@@ -34,17 +59,16 @@ const Donation = () => {
               <div>
                 <img src={Assignment} alt="Ícone da categoria" />
                 <label>
-                  Móveis
+                  {donation?.category?.title}
                 </label>
               </div>
               <h1>
-                Guarda-roupas
+                {donation?.title}
               </h1>
             </HeaderDonation>
             
             <DescriptionDonation>
-              Guarda roupas com 4 Portas de Correr Kappesberg.
-              Muito novo, com apenas 3 meses de uso
+              {donation?.description}
             </DescriptionDonation>
 
             <PersonalProfile>
@@ -59,7 +83,7 @@ const Donation = () => {
 
                 <div>
                   <label>
-                    Ronaldo Alves Pereira Filho
+                    {donation?.user?.name}
                   </label>
                   <Link to="">
                     Ver perfil
@@ -86,13 +110,24 @@ const Donation = () => {
               </span>
             </IconAndText>
 
-
             <Button variant="filled">
               Entrar em contato 
               <WhatsAppIcon />
             </Button>
           </InfoDonation>
         </DonationContainer>
+
+        <RelatedDonations>
+          <header>
+            <h1>
+              Doações relacionadas
+            </h1>
+          </header>
+
+          <Slider>
+            <CardDonation />
+          </Slider>
+        </RelatedDonations>
       </Container>
     </>
   );

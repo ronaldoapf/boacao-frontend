@@ -12,7 +12,6 @@ import { Container, PhotosContainer } from "./style";
 
 const PhotoUploader = ({ maxFiles, name, value, setFieldValue }) => {
   const onDrop = useCallback((files) => {
-    const reader = new FileReader();
     if (value.length >= maxFiles) return;
     const newFiles = [
       ...value,

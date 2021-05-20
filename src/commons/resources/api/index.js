@@ -11,19 +11,4 @@ api.interceptors.request.use(config => {
 	return config;
 })
 
-const multipartApi = axios.create({
-	baseURL: 'http://localhost:3333/',
-	headers: {
-		'Content-Type': 'multipart/form-data'
-	}
-});
-
-multipartApi.interceptors.request.use(config => {
-	const token = Storage.get('@Token');
-	config.headers.authorization = token;
-	return config;
-})
-
-
-export { multipartApi };
 export default api;

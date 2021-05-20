@@ -126,11 +126,23 @@ const IconAndText = styled.div`
   }
 `;
 
+const RelatedDonations = styled.section`
+  header {
+    h1 {
+      color: #333333;
+      font-size: 24px;
+      margin-top: 32px;
+      margin-bottom: 32px;
+    }
+  }
+`;
+
 export {
   IconAndText,
   InfoDonation,
   HeaderDonation,
   PersonalProfile,
+  RelatedDonations,
   DonationContainer,
   DescriptionDonation,
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from 'react'
 import { Formik, Form } from 'formik';
+import axios from 'axios';
 
 import Helmet from 'react-helmet';
 import Input from 'components/Input';
@@ -21,6 +22,7 @@ import Loader from 'components/Loader';
 import { responsiveFontSizes } from '@material-ui/core';
 import { toast, ToastContainer } from 'react-toastify';
 import { fireEvent } from '@testing-library/dom';
+import Storage from 'utils/Storage';
 
 const Donate = () => {
   const [local, setLocal] = useState(false);
@@ -49,15 +51,10 @@ const Donate = () => {
 		const { files, ...rest } = values;
 		console.log(files);
 		const formData = new FormData();
-		// files?.forEach(item => {
-		// 	formData.append(
-		// 		'files', 
-		// 		item
-		// 	)
-		// })
-		formData.append('files', files[0]);
+		files?.forEach((item) => {
+			formData.append('files', item.file)
+		})
 		formData.append('data', JSON.stringify(rest));
-		console.log(formData);
 
 		DonationApi.createDonation(formData).then(response => {
 			const { data, status, statusText } = response;

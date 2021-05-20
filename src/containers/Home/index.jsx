@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Helmet from 'react-helmet';
 
 import Header from 'components/Header';
@@ -8,8 +9,23 @@ import CardDonation from 'components/CardDonation';
 import Loader from 'components/Loader';
 import { ToastContainer } from 'react-toastify';
 
-const Home = () => {
+import DonationApi from 'commons/resources/api/donation';
 
+const Home = () => {
+  const [lastDonations, setLastDonations] = useState([]);
+
+  useEffect(() => {
+    DonationApi.listAllDonations()
+    .then(response => {
+      const { data } = response;
+      if(data) setLastDonations(data); 
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }, [])
+  
   return (
     <>
       <Helmet>
@@ -21,11 +37,9 @@ const Home = () => {
       <SearchAndCategories options={[]}/>
         <h4 style={{ marginTop: "32px"}}>Últimas doações</h4>
         <Slider height="450px">
-          <CardDonation />
-          <CardDonation />
-          <CardDonation />
-          <CardDonation />
-          <CardDonation />
+          {lastDonations?.map(donation => {
+            return <CardDonation key={donation} data={donation}/>
+          })}
         </Slider>
       </Container>
     </>

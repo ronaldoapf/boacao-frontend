@@ -24,6 +24,8 @@ const UserInformation = styled.section`
 
 const DonationsList = styled.section`
   width: 70%;
+  max-height: 900px;
+  overflow-y: auto;
   header { 
     width: 100%;
     display: flex;
@@ -141,11 +143,11 @@ const HeaderDonation = styled.div`
 `;
 
 export {
-  ContainerProfile,
-  UserInformation,
-  DonationsList,
   CardDonation,
   InfoDonation,
+  DonationsList,
+  HeaderDonation,
+  UserInformation,
   OptionsDonation,
-  HeaderDonation
+  ContainerProfile,
 };
