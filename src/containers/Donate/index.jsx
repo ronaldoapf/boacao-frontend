@@ -51,9 +51,9 @@ const Donate = () => {
 		file.map(item => {
 			formData.append('file', item.file)
 		})
-		formData.append('data', rest)
+		formData.append('data', JSON.stringify(rest))
 
-		DonationApi.createDonation(formData, null).then(response => {
+		DonationApi.createDonation(formData).then(response => {
 			const { data, status, statusText } = response;
 			if(data) toast.success('Doação cadastrada com sucesso');
 			console.log({response, data})

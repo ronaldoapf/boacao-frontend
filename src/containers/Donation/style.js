@@ -6,6 +6,12 @@ const DonationContainer = styled.section`
 
   figure {
     margin: 0;
+
+    img {
+      width: 576px;
+      height: 600px;
+      object-fit: cover;
+    }
   }
 `;
 
@@ -74,7 +80,8 @@ const PersonalProfile = styled.div`
     display: flex;
     figure {
       margin-top: 4px;
-      img {
+      svg {
+        color: #666666;
         width: 48px;
         height: 48px;
         object-fit: cover;

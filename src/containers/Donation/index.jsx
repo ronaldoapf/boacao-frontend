@@ -11,6 +11,8 @@ import {
   DescriptionDonation,
 } from './style';
 
+import get from 'lodash.get';
+
 import DonationApi from 'commons/resources/api/donation';
 
 import Slider from 'components/Slider';
@@ -19,6 +21,7 @@ import Container from 'components/Container';
 import Assignment from 'assets/assignment.png';
 import GuardaRoupa from 'assets/guardaRoupa.jpg';
 import CardDonation from 'components/CardDonation';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import Ronaldo from 'assets/ronaldo.jpeg';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
@@ -27,15 +30,12 @@ import PlaceIcon from '@material-ui/icons/Place';
 import EventIcon from '@material-ui/icons/Event';
 import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 
-const Donation = () => {
+const Donation = ({ match }) => {
   const [donation, setDonation] = useState([]);
-
+  const [imageDonation, setImageDonation] = useState();
+  
   useEffect(() => {
-    const pathname = window.location.pathname;
-    const splittedPathname = pathname.split("/");
-    const id = splittedPathname.pop();
-
-    DonationApi.showSpecificDonation(id)
+    DonationApi.showSpecificDonation(match.params.id)
     .then(response => {
       const { data } = response;
       if(data) setDonation(data);
@@ -46,20 +46,23 @@ const Donation = () => {
     })
   }, [])
 
+  const whatsAppLink = `
+    https://api.whatsapp.com/send?phone=55${get(donation, ['user', 'phone'], '')}&text=Ol%C3%A1%20${get(donation, ['user', 'name'], '')}.%20O%20item%20anunciado%20para%20doa%C3%A7%C3%A3o%20${get(donation, ['title'], '')}%20ainda%20est%C3%A1%20dispon%C3%ADvel%3F
+  `
   return (
     <>
       <Header />
       <Container>
         <DonationContainer>
           <figure>
-            <img src={GuardaRoupa} alt="Imagem da doação"/>
+              <img src={get(donation, ['files', '0', 'url'], '')} alt="Imagem da doação"/>
           </figure>
           <InfoDonation>
             <HeaderDonation>
               <div>
                 <img src={Assignment} alt="Ícone da categoria" />
                 <label>
-                  {donation?.category?.title}
+                  {get(donation, ['category', 'title'], '')}
                 </label>
               </div>
               <h1>
@@ -78,7 +81,7 @@ const Donation = () => {
 
               <div>
                 <figure>
-                  <img src={Ronaldo} alt="User Photo" />
+                  <AccountCircleIcon />
                 </figure>
 
                 <div>
@@ -110,10 +113,12 @@ const Donation = () => {
               </span>
             </IconAndText>
 
-            <Button variant="filled">
-              Entrar em contato 
-              <WhatsAppIcon />
-            </Button>
+            <a href={whatsAppLink} >
+              <Button variant="filled">
+                Entrar em contato 
+                <WhatsAppIcon />
+              </Button>
+            </a>
           </InfoDonation>
         </DonationContainer>
 

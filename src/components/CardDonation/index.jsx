@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Card, FooterCard, Info } from './style';
+import get from 'lodash.get';
 import GuardaRoupa from 'assets/guardaRoupa.jpg';
 import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
 import LocalShippingOutlinedIcon from '@material-ui/icons/LocalShippingOutlined';
@@ -8,11 +9,12 @@ import LocalShippingOutlinedIcon from '@material-ui/icons/LocalShippingOutlined'
 const CardDonation = ({ data }) => {
   console.log(data);
   const link = `/donation/${data?.id}`
+
   return (
       <Card>
         <Link to={link}>
           <figure>
-            <img src={GuardaRoupa} alt="Imagem da doação"/>
+            <img src={get(data, ['files', '0', 'url'], '')} alt="Imagem da doação"/>
           </figure>
         </Link>
         <Link to="/donation/1">
