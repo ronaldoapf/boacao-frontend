@@ -1,7 +1,6 @@
 import api from '.'
 import Storage from 'utils/Storage';
 
-
 const baseURL = '/donation'
 
 api.interceptors.request.use(config => {
@@ -11,17 +10,12 @@ api.interceptors.request.use(config => {
 })
 
 const DonationApi = {
-  createDonation(payload, token) {
-    let config;
-    if(token) {
-      config = {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+  createDonation(payload) {
+    return api.post(baseURL, payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
       }
-    }
-    
-    return api.post(baseURL, payload, config);    
+    });    
   },
 
   listDonations(id) {

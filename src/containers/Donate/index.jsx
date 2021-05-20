@@ -20,6 +20,7 @@ import { ContainerDonation } from './styles'
 import Loader from 'components/Loader';
 import { responsiveFontSizes } from '@material-ui/core';
 import { toast, ToastContainer } from 'react-toastify';
+import axios from 'axios';
 
 const Donate = () => {
   const [local, setLocal] = useState(false);
@@ -45,15 +46,22 @@ const Donate = () => {
 	}, []);
 
 	const handleSubmit = (values) => {
-		console.log(values);
-			DonationApi.createDonation(values, null).then(response => {
-				const { data, status, statusText } = response;
-				if(data) toast.success('Doação cadastrada com sucesso');
-				console.log({response, data})
-			}).catch(error => {
-				const { response } = error;
-				console.log({error, response})
-			});
+		const formData = new FormData()
+		const { file, ...rest } = values ?? {}
+		
+		file.map(item => {
+			formData.append('file', item.file)
+		})
+		formData.append('data', rest)
+
+		DonationApi.createDonation(formData, null).then(response => {
+			const { data, status, statusText } = response;
+			if(data) toast.success('Doação cadastrada com sucesso');
+			console.log({response, data})
+		}).catch(error => {
+			const { response } = error;
+			console.log({error, response})
+		});
 	}
 
   return (
@@ -111,7 +119,7 @@ const Donate = () => {
 										/>
 									</>
 								}
-								<PhotoUploader maxFiles={1} type="string" name="file" />
+								<PhotoUploader maxFiles={1} name="file" />
 								<Button variant="filled" type="submit">
 									Cadastrar doação
 								</Button>
