@@ -19,10 +19,7 @@ import CategoryApi from 'commons/resources/api/category';
 
 import { ContainerDonation } from './styles'
 import Loader from 'components/Loader';
-import { responsiveFontSizes } from '@material-ui/core';
 import { toast, ToastContainer } from 'react-toastify';
-import { fireEvent } from '@testing-library/dom';
-import Storage from 'utils/Storage';
 
 const Donate = () => {
   const [local, setLocal] = useState(false);
@@ -48,15 +45,15 @@ const Donate = () => {
 	}, []);
 
 	const handleSubmit = (values) => {
-		const { files, ...rest } = values;
-		console.log(files);
-		const formData = new FormData();
-		files?.forEach((item) => {
-			formData.append('files', item.file)
+		const formData = new FormData()
+		const { file, ...rest } = values ?? {}
+		
+		file.map(item => {
+			formData.append('file', item.file)
 		})
-		formData.append('data', JSON.stringify(rest));
+		formData.append('data', rest)
 
-		DonationApi.createDonation(formData).then(response => {
+		DonationApi.createDonation(formData, null).then(response => {
 			const { data, status, statusText } = response;
 			if(data) toast.success('Doação cadastrada com sucesso');
 			console.log({response, data})
@@ -64,7 +61,6 @@ const Donate = () => {
 			const { response } = error;
 			console.log({error, response})
 		});
-
 	}
 
   return (
@@ -122,7 +118,7 @@ const Donate = () => {
 										/>
 									</>
 								}
-								<PhotoUploader maxFiles={5} type="string" name="files" />
+								<PhotoUploader maxFiles={1} name="file" />
 								<Button variant="filled" type="submit">
 									Cadastrar doação
 								</Button>
