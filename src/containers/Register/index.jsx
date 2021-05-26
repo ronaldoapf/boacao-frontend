@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as yup from 'yup';
 import Helmet from 'react-helmet';
 import { Form, Formik } from 'formik';

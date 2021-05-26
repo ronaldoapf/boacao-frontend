@@ -1,4 +1,4 @@
-import React, { memo, useRef } from 'react';
+import { memo, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { InputContainer } from './style';

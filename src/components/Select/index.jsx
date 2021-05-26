@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import Popover from '@material-ui/core/Popover';

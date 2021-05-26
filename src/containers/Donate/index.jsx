@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Formik, Form } from 'formik';
+import axios from 'axios';
 
 import Helmet from 'react-helmet';
 import Input from 'components/Input';
@@ -18,9 +19,7 @@ import CategoryApi from 'commons/resources/api/category';
 
 import { ContainerDonation } from './styles'
 import Loader from 'components/Loader';
-import { responsiveFontSizes } from '@material-ui/core';
 import { toast, ToastContainer } from 'react-toastify';
-import axios from 'axios';
 
 const Donate = () => {
   const [local, setLocal] = useState(false);
@@ -52,9 +51,9 @@ const Donate = () => {
 		file.map(item => {
 			formData.append('file', item.file)
 		})
-		formData.append('data', rest)
+		formData.append('data', JSON.stringify(rest))
 
-		DonationApi.createDonation(formData, null).then(response => {
+		DonationApi.createDonation(formData).then(response => {
 			const { data, status, statusText } = response;
 			if(data) toast.success('Doação cadastrada com sucesso');
 			console.log({response, data})

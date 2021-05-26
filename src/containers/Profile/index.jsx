@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useRef } from "react";
+import get from 'lodash.get';
 import { Form, Formik } from "formik";
 import { history, useHistory } from 'react-router-dom';
 
-import Loader from 'components/Loader';
+import Modal from 'components/Modal';
 import Input from "components/Input";
+import Loader from 'components/Loader';
 import Header from "components/Header";
 import Button from "components/Button";
 import Filter from "assets/filter.svg";
@@ -15,8 +17,11 @@ import PhotoUploader from "components/PhotoUploader";
 import EditIcon from "assets/edit.svg";
 import DeleteIcon from "assets/delete.svg";
 
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+
 import UserApi from 'commons/resources/api/user';
 import DonationApi from 'commons/resources/api/donation';
+import styles from './styles.module.scss';
 
 import {
   ContainerProfile,
@@ -30,13 +35,22 @@ import {
 import { toast, ToastContainer } from "react-toastify";
 
 import useAuth from 'contexts/AuthContext/useAuth';
+import TextArea from "components/TextArea";
+import Select from "components/Select";
+import Checkboxes from "components/Checkboxes";
+import CategoryApi from "commons/resources/api/category";
+import { StylesProvider } from "@material-ui/styles";
 
 const Profile = () => {
   const [filter, setFilter] = useState(false);
-  const [userDonations, setUserDonations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { token, userData } = useAuth();
+  const [userDonations, setUserDonations] = useState([]);
+  const [donationToDelete, setDonationToDelete] = useState(null);
+  const [modalToDelete, setModalToDelete] = useState(false);
+
+
   const history = useHistory();
+  const { token, userData } = useAuth();
 
   useEffect(() => {
     const { id } = userData;
@@ -51,7 +65,16 @@ const Profile = () => {
   };
 
   const handleSubmitData = (values) => {
-    UserApi.updateData(values, userData.id)
+    const formData = new FormData();
+		const { file, ...rest } = values ?? {};
+
+    console.log(file)
+    file.map(item => {
+			formData.append('file', item.file)
+		})
+		formData.append('data', JSON.stringify(rest))
+
+    UserApi.updateData(formData, userData.id)
       .then(response => {
         const { data } = response;
 
@@ -65,10 +88,16 @@ const Profile = () => {
   }
 
   const editDonation = () => {
-    alert("Edit donation");
+    alert("edit donation");
+  }
+
+  const renderModalToDelete = (id) => {
+    setModalToDelete(true);
+    setDonationToDelete(id);
   }
 
   const deleteDonation = (id) => {
+    setModalToDelete(false);
     DonationApi.deleteDonation(id)
       .then(response => {
         const { data } = response;
@@ -80,8 +109,31 @@ const Profile = () => {
       })
   }
 
+
+
   return (
     <>
+      <Modal isOpen={modalToDelete} onClose={() => setModalToDelete(false)}>
+        <div className={styles.contentModal}>
+          <h1>
+            Excluir doação
+          </h1>
+
+          <p>
+            Deseja realmente excluir essa doação?
+          </p>
+
+          <div>
+            <Button variant="outlined" onClick={() => setModalToDelete(false)}>
+              Cancelar
+            </Button>
+
+            <Button variant="filled" onClick={() => deleteDonation(donationToDelete)}>
+              Excluir
+            </Button>
+          </div>
+        </div>
+      </Modal>
       <Loader isLoading={isLoading}/>
       <ToastContainer />
       <Sidebar open={filter} onClose={() => setFilter(false)}/>
@@ -103,7 +155,7 @@ const Profile = () => {
               {({ values }) => {
                 return (
                 <Form>
-                  {/* <PhotoUploader maxFiles={1} name="photos" /> */}
+                  <PhotoUploader maxFiles={1} name="file" />
                   <Input
                    name="name" 
                    label="Nome completo" 
@@ -155,19 +207,20 @@ const Profile = () => {
               </h1>
             )}
             {userDonations.map(donation => {
+              console.log(donation)
               return (
                 <>
                 <CardDonation key={donation.id}>
                   <figure>
-                    <img src={GuardaRoupa} />
+                    <img src={get(donation, ['files', '0', 'url'], '')} />
                   </figure>
                   <InfoDonation>
                     <HeaderDonation>
                       <div>
                         <img src={Assignment} alt="Ícone da Categoria" />
-                        <label>Móveis</label>
+                        <label>{donation?.category.title}</label>
                       </div>
-                      <h1>Guarda Roupa</h1>
+                      <h1>{donation?.title}</h1>
                     </HeaderDonation>
                   </InfoDonation>
 
@@ -178,7 +231,7 @@ const Profile = () => {
                       </figure>
                     </button>
 
-                    <button onClick={() => deleteDonation(donation.id)}>
+                    <button onClick={() => renderModalToDelete(donation.id)}>
                       <figure>
                         <img src={DeleteIcon} alt="Edição da doação" />
                       </figure>

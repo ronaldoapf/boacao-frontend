@@ -1,4 +1,4 @@
-import React, { 
+import { 
 	useState, 
 	useContext 
 } from 'react';
@@ -19,11 +19,15 @@ import { ToastContainer } from 'react-toastify';
 import useAuth from 'contexts/AuthContext/useAuth';
 
 import styles from './styles.module.scss';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+	const [category, setCategory] = useState([])
 	const [open, setOpen] = useState(false);
+	const [local, setLocal] = useState(false);
 	const [redirect, setRedirect] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const history = useHistory();
   const { signIn } = useAuth();
@@ -62,7 +66,6 @@ const Login = () => {
 							</Form>
 						)}
 					</Formik>
-
         </div>
       </Modal>
 			<Helmet>

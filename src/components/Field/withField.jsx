@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Field from '.';
 
 const withField = WrappedComponent => function RenderComponent(props) {

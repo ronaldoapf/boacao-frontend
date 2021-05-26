@@ -4,14 +4,14 @@
   display: flex;
   overflow: hidden;
 
-  .background{
+  .background {
     width: 50%;
   }
 
   .containerLogin {
     width: 50%;
     height: 100vh;
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,16 +32,16 @@
         font-weight: bold;
         margin-top: 20px;
         a {
-          color: #FEBD59;
+          color: #febd59;
           text-decoration: none;
 
           &:hover {
-            color: #D4C326;
-            transition: .3s ease-in-out;
+            color: #d4c326;
+            transition: 0.3s ease-in-out;
           }
         }
-        span { 
-          color: #FEBD59;
+        span {
+          color: #febd59;
           font-weight: bold;
         }
       }
@@ -50,7 +50,7 @@
         border: none;
         background-color: transparent;
         outline: none;
-        color: #FEBD59;
+        color: #febd59;
         font-weight: bold;
         font-size: 16px;
       }
@@ -58,20 +58,19 @@
   }
 }
 
-
-.contentModal{
+.contentModal {
   h1 {
     color: #000;
     margin-bottom: 24px;
   }
 
-  p{
+  p {
     margin-bottom: 24px;
   }
 
   form {
     display: flex;
-    
+
     > div {
       width: 320px;
       margin-right: 16px;
@@ -79,7 +78,7 @@
 
     button {
       width: 160px;
-    } 
+    }
   }
 }
 

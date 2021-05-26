@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import AuthProvider from 'contexts/AuthContext';
@@ -33,7 +32,7 @@ const App = () => {
             component={Register} 
           />
           <Route 
-            path="/donation"
+            path="/donation/:id"
             component={Donation} 
           />
           <Route 

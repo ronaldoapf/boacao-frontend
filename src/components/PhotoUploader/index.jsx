@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import PropTypes from "prop-types";
 import _cloneDeep from "lodash.clonedeep";
