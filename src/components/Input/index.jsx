@@ -14,17 +14,15 @@ const _Input = ({
 	onChange,
 	isSelect,
 	...props
-}) => {
-	return (
-		<>
-			<InputContainer value={value} isSelect={isSelect} error={error}>
-				<label>{label}</label>
-				<input type={type} name={name} value={value} onChange={onChange} {...props} />
-				{IconComponent && <IconComponent />}
-			</InputContainer>
-		</>
-	);
-}
+}) => (
+	<>
+		<InputContainer value={value} isSelect={isSelect} error={error}>
+			<label>{label}</label>
+			<input type={type} name={name} value={value ?? ''} onChange={onChange} {...props} />
+			{IconComponent && <IconComponent />}
+		</InputContainer>
+	</>
+);
 
 
 _Input.propTypes = {

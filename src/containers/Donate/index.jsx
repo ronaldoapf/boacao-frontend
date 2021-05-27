@@ -49,29 +49,27 @@ const Donate = () => {
 
 	const handleSubmit = (values, { resetForm }) => {
 		setIsLoading(true);
-		setTimeout(() => {
-			const formData = new FormData()
-			const { file, ...rest } = values ?? {}
-			
-			file.map(item => {
-				formData.append('file', item.file)
-			})
-			formData.append('data', JSON.stringify(rest))
-	
-			DonationApi.createDonation(formData).then(response => {
-				const { data, status, statusText } = response;
-				console.log({response, data})
-				if(data) {
-					setIsLoading(false);
-					resetForm();
-					toast.success('Doação cadastrada com sucesso');
-				}
-			}).catch(error => {
-				const { response } = error;
-				console.log({error, response})
-				if(response.data) toast.error('Não foi possível cadastrar a doação');
-			});
-		}, 500);
+		const formData = new FormData()
+		const { file, ...rest } = values ?? {}
+		
+		file.map(item => {
+			formData.append('file', item.file)
+		})
+		formData.append('data', JSON.stringify(rest))
+
+		DonationApi.createDonation(formData).then(response => {
+			const { data, status, statusText } = response;
+			console.log({response, data})
+			if(data) {
+				setIsLoading(false);
+				resetForm();
+				toast.success('Doação cadastrada com sucesso');
+			}
+		}).catch(error => {
+			const { response } = error;
+			console.log({error, response})
+			if(response.data) toast.error('Não foi possível cadastrar a doação');
+		});
 	}
 
   return (
@@ -97,7 +95,7 @@ const Donate = () => {
 							state: '',
 							file: []
 						}}
-						validationSchema={schema}
+						// validationSchema={schema}
 						onSubmit={handleSubmit}
 					>
 						{({ values }) => (
