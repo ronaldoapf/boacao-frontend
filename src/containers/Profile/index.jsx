@@ -21,6 +21,7 @@ import DeleteIcon from 'assets/delete.svg';
 import Assignment from 'assets/assignment.png';
 
 import UserApi from 'commons/resources/api/user';
+import AvatarApi from 'commons/resources/api/avatar';
 import DonationApi from 'commons/resources/api/donation';
 
 import styles from './styles.module.scss';
@@ -49,7 +50,7 @@ const Profile = () => {
 
   const history = useHistory();
   const { token, userData } = useAuth();
-
+  console.log(userData);
   useEffect(() => {
     const { id } = userData;
     DonationApi.listDonations(id).then(response => {
@@ -63,12 +64,22 @@ const Profile = () => {
   };
 
   const handleSubmitData = (values) => {
+    console.log(values);
     const formData = new FormData();
 		const { file, ...rest } = values ?? {};
 
     file.map(item => {
 			formData.append('file', item.file)
 		})
+
+    AvatarApi.create(formData).then(response => {
+      console.log(response);
+    })
+
+    .catch(error => {
+      console.log(error);
+    }) 
+
 		formData.append('data', JSON.stringify(rest))
 
     UserApi.updateData(formData, userData.id)
@@ -105,8 +116,6 @@ const Profile = () => {
       })
   }
 
-
-
   return (
     <>
       <Modal isOpen={modalToDelete} onClose={() => setModalToDelete(false)}>
@@ -140,6 +149,9 @@ const Profile = () => {
             <h1>Meu Perfil</h1>
             <Formik
               initialValues={{
+                file: [{
+                  url: userData.avatar?.url
+                }],
                 name: userData.name,
                 email: userData.email,
                 phone: userData.phone,

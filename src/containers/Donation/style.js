@@ -80,10 +80,12 @@ const PersonalProfile = styled.div`
     display: flex;
     figure {
       margin-top: 4px;
-      svg {
+      width: 50px;
+      height: 50px;
+      img {
         color: #666666;
-        width: 48px;
-        height: 48px;
+        width: 50px;
+        height: 50px;
         object-fit: cover;
         border-radius: 24px;
       }

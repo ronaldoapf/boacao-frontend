@@ -50,7 +50,7 @@ const PhotoUploader = ({ maxFiles, name, value, setFieldValue }) => {
             <CloseIcon />
             <span>Excluir Imagem</span>
           </button>
-          <img src={file.preview} alt="file" />
+          <img src={file.preview || file.url} alt="file" />
         </Container>
       ))}
     </PhotosContainer>
