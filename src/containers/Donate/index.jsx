@@ -1,6 +1,7 @@
-import { useEffect, useState, useContext } from 'react'
-import { Formik, Form } from 'formik';
+import { useEffect, useState } from 'react'
 import axios from 'axios';
+import { Formik, Form } from 'formik';
+import { useHistory } from 'react-router-dom'; 
 
 import Helmet from 'react-helmet';
 import Input from 'components/Input';
@@ -9,7 +10,7 @@ import Header from 'components/Header';
 import Select from 'components/Select';
 import TextArea from 'components/TextArea';
 import Container from 'components/Container';
-import Checkboxes from 'components/Checkboxes';
+import Checkbox from 'components/Checkbox';
 import PhotoUploader from 'components/PhotoUploader';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
@@ -20,13 +21,15 @@ import CategoryApi from 'commons/resources/api/category';
 import { ContainerDonation } from './styles'
 import Loader from 'components/Loader';
 import { toast, ToastContainer } from 'react-toastify';
+import { HistoryOutlined } from '@material-ui/icons';
 
 const Donate = () => {
-  const [local, setLocal] = useState(false);
+	
+	const [local, setLocal] = useState(false);
 	const [category, setCategory] = useState([])
-  const [isChecked, setIsChecked] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-
+	
+	const history = useHistory();
 
 	useEffect(() => {
 		CategoryApi.listCategories().then(response => {
@@ -44,23 +47,31 @@ const Donate = () => {
 		})
 	}, []);
 
-	const handleSubmit = (values) => {
-		const formData = new FormData()
-		const { file, ...rest } = values ?? {}
-		
-		file.map(item => {
-			formData.append('file', item.file)
-		})
-		formData.append('data', JSON.stringify(rest))
-
-		DonationApi.createDonation(formData).then(response => {
-			const { data, status, statusText } = response;
-			if(data) toast.success('Doação cadastrada com sucesso');
-			console.log({response, data})
-		}).catch(error => {
-			const { response } = error;
-			console.log({error, response})
-		});
+	const handleSubmit = (values, { resetForm }) => {
+		setIsLoading(true);
+		setTimeout(() => {
+			const formData = new FormData()
+			const { file, ...rest } = values ?? {}
+			
+			file.map(item => {
+				formData.append('file', item.file)
+			})
+			formData.append('data', JSON.stringify(rest))
+	
+			DonationApi.createDonation(formData).then(response => {
+				const { data, status, statusText } = response;
+				console.log({response, data})
+				if(data) {
+					setIsLoading(false);
+					resetForm();
+					toast.success('Doação cadastrada com sucesso');
+				}
+			}).catch(error => {
+				const { response } = error;
+				console.log({error, response})
+				if(response.data) toast.error('Não foi possível cadastrar a doação');
+			});
+		}, 500);
 	}
 
   return (
@@ -77,7 +88,15 @@ const Donate = () => {
             Nova doação
           </h1>
           <Formik
-						initialValues={{}}
+						initialValues={{
+							title: '',
+							description: '',
+							categoryId: null,
+							checkbox: false,
+							cep: '',
+							state: '',
+							file: []
+						}}
 						validationSchema={schema}
 						onSubmit={handleSubmit}
 					>
@@ -99,11 +118,23 @@ const Donate = () => {
 									options={category}
 									icon={KeyboardArrowDownIcon}
 								/>
-                <Checkboxes 
-									label="Usar minha localização como endereço"
-									isChecked={setIsChecked}
+								<Checkbox 
+									label="Tenho disponibilidade para entrega"
+									name="deliveryAvailability"
 								/>
-								{!isChecked && 
+								{values.deliveryAvailability && (
+									<Input
+										type="text"
+										name="deliveryDistance"
+										label="Consegue entregar em até quanto KMs?"
+									/>
+								)}
+                <Checkbox 
+									label="Usar meu endereço para a doação"
+									name="sameRegisterAddress"
+								/>
+							
+								{!values.sameRegisterAddress && 
 									<>
 										<Input
 											name="cep"

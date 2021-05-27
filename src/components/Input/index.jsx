@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { InputContainer } from './style';
 import withField from '../Field/withField';
 
-const Input = ({
+const _Input = ({
 	type,
 	name,
 	icon: IconComponent,
@@ -14,17 +14,20 @@ const Input = ({
 	onChange,
 	isSelect,
 	...props
-}) => (
-	<>
-		<InputContainer value={value} isSelect={isSelect} error={error}>
-			<label>{label}</label>
-			<input type={type} name={name} value={value} onChange={onChange} {...props} />
-			{IconComponent && <IconComponent />}
-		</InputContainer>
-	</>
-)
+}) => {
+	return (
+		<>
+			<InputContainer value={value} isSelect={isSelect} error={error}>
+				<label>{label}</label>
+				<input type={type} name={name} value={value} onChange={onChange} {...props} />
+				{IconComponent && <IconComponent />}
+			</InputContainer>
+		</>
+	);
+}
 
-Input.propTypes = {
+
+_Input.propTypes = {
 	icon: PropTypes.func,
 	error: PropTypes.bool,
 	type: PropTypes.string,
@@ -36,5 +39,7 @@ Input.propTypes = {
 	placeholder: PropTypes.string,
 };
 
-export default withField(memo(Input));
+export const Input = memo(_Input);
+
+export default withField(Input);
 

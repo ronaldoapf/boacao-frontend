@@ -6,7 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
-import Input from '../Input'
+import { Input } from '../Input'
 import { SelectContainer, OptionsContainer } from './style'
 import withField from '../Field/withField';
 

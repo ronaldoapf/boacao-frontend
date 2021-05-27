@@ -1,52 +1,50 @@
-import { useEffect, useState, useRef } from "react";
+import {
+  useEffect, 
+  useState
+} from "react";
 import get from 'lodash.get';
 import { Form, Formik } from "formik";
 import { history, useHistory } from 'react-router-dom';
 
 import Modal from 'components/Modal';
-import Input from "components/Input";
+import Input from 'components/Input';
 import Loader from 'components/Loader';
-import Header from "components/Header";
-import Button from "components/Button";
-import Filter from "assets/filter.svg";
-import Sidebar from "components/Sidebar";
-import Container from "components/Container";
-import Assignment from "assets/assignment.png";
-import GuardaRoupa from "assets/guardaRoupa.jpg";
-import PhotoUploader from "components/PhotoUploader";
-import EditIcon from "assets/edit.svg";
-import DeleteIcon from "assets/delete.svg";
+import Header from 'components/Header';
+import Button from 'components/Button';
+import Sidebar from 'components/Sidebar';
+import Container from 'components/Container';
+import PhotoUploader from 'components/PhotoUploader';
 
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import Filter from 'assets/filter.svg';
+import EditIcon from 'assets/edit.svg';
+import DeleteIcon from 'assets/delete.svg';
+import Assignment from 'assets/assignment.png';
 
 import UserApi from 'commons/resources/api/user';
 import DonationApi from 'commons/resources/api/donation';
+
 import styles from './styles.module.scss';
 
 import {
-  ContainerProfile,
-  UserInformation,
-  DonationsList,
-  CardDonation,
   InfoDonation,
-  OptionsDonation,
+  CardDonation,
+  DonationsList,
   HeaderDonation,
+  UserInformation,
+  OptionsDonation,
+  ContainerProfile,
 } from "./style";
+
 import { toast, ToastContainer } from "react-toastify";
 
 import useAuth from 'contexts/AuthContext/useAuth';
-import TextArea from "components/TextArea";
-import Select from "components/Select";
-import Checkboxes from "components/Checkboxes";
-import CategoryApi from "commons/resources/api/category";
-import { StylesProvider } from "@material-ui/styles";
 
 const Profile = () => {
   const [filter, setFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userDonations, setUserDonations] = useState([]);
-  const [donationToDelete, setDonationToDelete] = useState(null);
   const [modalToDelete, setModalToDelete] = useState(false);
+  const [donationToDelete, setDonationToDelete] = useState(null);
 
 
   const history = useHistory();
@@ -68,7 +66,6 @@ const Profile = () => {
     const formData = new FormData();
 		const { file, ...rest } = values ?? {};
 
-    console.log(file)
     file.map(item => {
 			formData.append('file', item.file)
 		})
@@ -82,7 +79,6 @@ const Profile = () => {
       })
       .catch(err => {
         const { response } = err;
-        console.log(response);
         if(response.data.message === 'Passwords must match') toast.error('As senhas devem ser iguais');
       })
   }
@@ -207,7 +203,6 @@ const Profile = () => {
               </h1>
             )}
             {userDonations.map(donation => {
-              console.log(donation)
               return (
                 <>
                 <CardDonation key={donation.id}>

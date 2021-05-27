@@ -11,9 +11,37 @@ const Header = styled.header`
   ul {
     display: flex;
     list-style: none;
+    align-items: center;
 
-    li:not(:last-child){
-      margin-right: 27px;
+    .userDropdown {
+      > svg {
+        margin-right: 10px;
+      }
+
+      label {
+        margin-right: 5px;
+      }      
+    }
+
+    .headerItem {
+      margin-right: 20px;
+    }
+    li {
+      display: flex;
+      cursor: pointer;
+      align-items: center;
+      
+
+      button {
+        width: 80px;
+        height: 40px;
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
     a{

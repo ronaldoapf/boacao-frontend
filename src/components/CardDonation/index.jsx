@@ -7,7 +7,6 @@ import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
 import LocalShippingOutlinedIcon from '@material-ui/icons/LocalShippingOutlined';
 
 const CardDonation = ({ data }) => {
-  console.log(data);
   const link = `/donation/${data?.id}`
 
   return (

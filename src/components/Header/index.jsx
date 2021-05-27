@@ -1,58 +1,66 @@
-import { 
-  useState, 
-  useEffect, 
-} from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
+import useAuth from 'contexts/AuthContext/useAuth';
 
 import Logo from '../Logo';
 import Container from '../Container';
-import { 
-  Header as HeaderContainer, 
-  ExitButton
-} from './style.js';
-import Storage from 'utils/Storage';
-import useAuth from 'contexts/AuthContext/useAuth';
-import { SingleBedTwoTone } from '@material-ui/icons';
+import Button from 'components/Button';
+import Dropdown from 'components/Dropdown';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+
+import { Header as HeaderContainer } from './style.js';
 
 const Header = () => {
-  const { signOut, userData, isLogged } = useAuth();
-
-  const closeSession = () => {
-    signOut();
-  };
-
+	const history = useHistory();
+  const [isOpen, setIsOpen] = useState(false);
+  const { signOut, userData, authenticated } = useAuth();
+  
   return (
     <Container>
       <HeaderContainer>
         <Link to="/">
           <Logo />
         </Link>
+        
         <ul>
-          <li>
-            <Link to="/donate">
-              Doar
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile">
-              Meu perfil
-            </Link>
-          </li>
-          {isLogged ? (
-            <>
-              <li>
-                <ExitButton onClick={closeSession}>
-                  Sair
-                </ExitButton>
-              </li>
-            </>
-          ) : (
-            <li>
+          {!authenticated ? (
+            <li className="headerItem">
               <Link to="/sign-in">
+                <PersonOutlineIcon />
                 Entrar
               </Link>
             </li>
+          ) : (
+            <>
+            {/* <li className="headerItem">
+              <Link to="/donations">
+                Minhas doações
+              </Link>
+            </li> */}
+              <li className="userDropdown headerItem" onClick={() => setIsOpen(!isOpen)}>
+                <PersonOutlineIcon />
+                <span>
+                  {userData?.name}
+                </span>
+                <figure className="chevron">
+                  <KeyboardArrowDownIcon />
+                </figure>
+              </li>
+
+              <Dropdown isOpen={isOpen}/>
+            </>
           )}
+
+          <li className="headerItem">
+            <Button 
+              onClick={() => history.push('/donate')} 
+              variant="filled"
+            >
+              Doar
+            </Button>
+          </li>
         </ul>
       </HeaderContainer>
     </Container>
