@@ -15,11 +15,15 @@ const Select = ({
   value,
   label,
   options,
+  disabled,
   setFieldValue,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const handleOpen = (ev) => setAnchorEl(ev.currentTarget)
+  const handleOpen = (ev) => {
+    if(disabled) return
+    setAnchorEl(ev.currentTarget)
+  }
   const handleClose = () => setAnchorEl(null)
 
   const open = Boolean(anchorEl)
@@ -41,6 +45,7 @@ const Select = ({
         <Input
           readOnly
           isSelect
+          disabled={disabled}
           label={label}
           value={valueText}
           icon={ArrowDropDownIcon}
@@ -85,6 +90,7 @@ Select.propTypes ={
   name: PropTypes.string,
   label: PropTypes.string,
   options: PropTypes.array,
+  disabled: PropTypes.bool,
   setFieldValue: PropTypes.func,
 }
 

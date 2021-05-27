@@ -59,7 +59,6 @@ const Donate = () => {
 
 		DonationApi.createDonation(formData).then(response => {
 			const { data, status, statusText } = response;
-			console.log({response, data})
 			if(data) {
 				setIsLoading(false);
 				resetForm();
