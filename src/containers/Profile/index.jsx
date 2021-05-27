@@ -38,6 +38,7 @@ import {
 import { toast, ToastContainer } from "react-toastify";
 
 import useAuth from 'contexts/AuthContext/useAuth';
+import AddressForm from "templates/AddressForm";
 
 const Profile = () => {
   const [filter, setFilter] = useState(false);
@@ -177,6 +178,7 @@ const Profile = () => {
                     label="Confirmar nova senha"
                     type="password"
                   />
+                  <AddressForm />
                   <Button type="submit" variant="filled">
                     Salvar
                   </Button>
