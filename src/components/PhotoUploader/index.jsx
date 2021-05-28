@@ -44,15 +44,18 @@ const PhotoUploader = ({ maxFiles, name, value, setFieldValue }) => {
           </Container>
         </div>
       )}
-      {value.map((file) => (
-        <Container key={file.uuid}>
-          <button className="close" onClick={() => deleteFile(file.uuid)}>
-            <CloseIcon />
-            <span>Excluir Imagem</span>
-          </button>
-          <img src={file.preview || file.url} alt="file" />
-        </Container>
-      ))}
+      {value.map((file) => {
+        console.log(file);
+        return (
+          <Container key={file.uuid}>
+            <button className="close" onClick={() => deleteFile(file.uuid)}>
+              <CloseIcon />
+              <span>Excluir Imagem</span>
+            </button>
+            <img src={file.preview} alt="file" />
+          </Container>
+        ) 
+      })}
     </PhotosContainer>
   );
 };

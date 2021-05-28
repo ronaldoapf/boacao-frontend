@@ -51,7 +51,7 @@ const Profile = () => {
 
   const history = useHistory();
   const { token, userData } = useAuth();
-  console.log(userData);
+
   useEffect(() => {
     const { id } = userData;
     DonationApi.listDonations(id).then(response => {
@@ -151,7 +151,7 @@ const Profile = () => {
             <Formik
               initialValues={{
                 file: [{
-                  url: userData.avatar?.url
+                  preview: userData?.avatar?.url
                 }],
                 name: userData.name,
                 email: userData.email,
@@ -190,7 +190,7 @@ const Profile = () => {
                     label="Confirmar nova senha"
                     type="password"
                   />
-                  <AddressForm />
+                  <AddressForm addressData={userData?.address} />
                   <Button type="submit" variant="filled">
                     Salvar
                   </Button>

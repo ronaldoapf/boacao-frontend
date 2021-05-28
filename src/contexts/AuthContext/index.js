@@ -25,6 +25,7 @@ const AuthProvider = ({ children }) => {
         const { data } = response;
         const token = data.token;
         const user = data.user;
+        console.log({data});
         Storage.set('@Token', `Bearer ${token}`);
         Storage.set('@User', JSON.stringify(user));
         setUserData(user);

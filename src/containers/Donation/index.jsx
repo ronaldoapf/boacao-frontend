@@ -50,6 +50,8 @@ const Donation = ({ match }) => {
   const whatsAppLink = `
     https://api.whatsapp.com/send?phone=55${get(donation, ['user', 'phone'], '')}&text=Ol%C3%A1%20${get(donation, ['user', 'name'], '')}.%20O%20item%20anunciado%20para%20doa%C3%A7%C3%A3o%20${get(donation, ['title'], '')}%20ainda%20est%C3%A1%20dispon%C3%ADvel%3F
   `
+
+  const profileLink = `/user/${donation?.user?.id}`
   return (
     <>
       <Header />
@@ -89,7 +91,7 @@ const Donation = ({ match }) => {
                   <label>
                     {donation?.user?.name}
                   </label>
-                  <Link to="">
+                  <Link to={profileLink}>
                     Ver perfil
                   </Link>
                 </div>

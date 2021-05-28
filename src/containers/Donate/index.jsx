@@ -22,6 +22,7 @@ import { ContainerDonation } from './styles'
 import Loader from 'components/Loader';
 import { toast, ToastContainer } from 'react-toastify';
 import { HistoryOutlined } from '@material-ui/icons';
+import AddressForm from 'templates/AddressForm';
 
 const Donate = () => {
 	
@@ -56,7 +57,7 @@ const Donate = () => {
 			formData.append('file', item.file)
 		})
 		formData.append('data', JSON.stringify(rest))
-
+		console.log(values);
 		DonationApi.createDonation(formData).then(response => {
 			const { data, status, statusText } = response;
 			if(data) {
@@ -86,13 +87,14 @@ const Donate = () => {
           </h1>
           <Formik
 						initialValues={{
+							cep: '',
+							file: [],
 							title: '',
+							state: '',
 							description: '',
 							categoryId: null,
-							checkbox: false,
-							cep: '',
-							state: '',
-							file: []
+							sameRegisterAddress: false,
+							deliveryAvailability: false,
 						}}
 						// validationSchema={schema}
 						onSubmit={handleSubmit}
@@ -119,32 +121,12 @@ const Donate = () => {
 									label="Tenho disponibilidade para entrega"
 									name="deliveryAvailability"
 								/>
-								{values.deliveryAvailability && (
-									<Input
-										type="text"
-										name="deliveryDistance"
-										label="Consegue entregar em até quanto KMs?"
-									/>
-								)}
                 <Checkbox 
 									label="Usar meu endereço para a doação"
 									name="sameRegisterAddress"
 								/>
-							
 								{!values.sameRegisterAddress && 
-									<>
-										<Input
-											name="cep"
-											type="text"
-											label="CEP"
-										/>
-
-										<Input
-											type="text"
-											name="state"
-											label="Estado"
-										/>
-									</>
+										<AddressForm />
 								}
 								<PhotoUploader maxFiles={1} name="file" />
 								<Button variant="filled" type="submit">
