@@ -3,6 +3,7 @@ import {
   useState
 } from "react";
 import get from 'lodash.get';
+import { v4 as uuid } from 'uuid';
 import { Form, Formik } from "formik";
 import { history, useHistory } from 'react-router-dom';
 
@@ -150,12 +151,16 @@ const Profile = () => {
             <h1>Meu Perfil</h1>
             <Formik
               initialValues={{
-                file: [{
-                  preview: userData?.avatar?.url
-                }],
+                file: [
+                  ...(userData?.avatar?.url ? [{
+                    preview: userData?.avatar?.url,
+                    uuid: uuid(),
+                  }] : [])
+                ],
                 name: userData.name,
                 email: userData.email,
                 phone: userData.phone,
+                address: {}
               }}
               validationSchema={null}
               onSubmit={handleSubmitData}
