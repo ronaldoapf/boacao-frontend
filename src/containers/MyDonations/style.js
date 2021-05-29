@@ -1,140 +1,89 @@
 import styled from 'styled-components';
 
 const MyDonationsContainer = styled.section`
+  height: 100vh;
   padding-top: 40px;
+  background: #f9f9f9;
+
+  > div {
+    height: initial;
+  }
 `;
 
-const MyDonationsTitle = styled.h1`
+const StatusDonation = styled.ul`
+  width: 100%;
+  list-style: none;
+  margin-bottom: 40px;
+  border-top: 1px #eaeaea solid;
+  border-bottom: 1px #eaeaea solid;
+  > div {
+    display: flex;
+  }
+`;
+
+const Status = styled.li`
+  cursor: pointer;
+  padding-top: 15px;
+  margin-right: 40px;
+  padding-bottom: 10px;
+`;
+
+const ActiveStatus = styled.li`
+  cursor: pointer;
+  margin-right: 40px;
+  padding: 15px 20px 10px 20px;
+  border-bottom: 3px #FEBD59 solid;
+`;
+
+const TitlePage = styled.h1`
   margin-bottom: 40px;
 `;
 
-const DonationsList = styled.section`
+const Donations = styled.section`
   width: 100%;
-  max-height: 1000px;
-  overflow-y: auto;
-  header { 
-    width: 100%;
-    display: flex;
-    margin-top: 32px;
-    align-items: center;
-    margin-bottom: 32px;
-    justify-content: space-between;
 
-    > div {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      button:nth-child(1) {
-        width: 40px;
-        height: 40px;
-        border: none;
-        display: flex;
-        align-items: center;
-        border-radius: 20px;
-        justify-content: center;
-        background-color: #C4C4C4;
-      }
-
-      button:nth-child(2) {
-        width: 160px;
-        margin-left: 32px;
-      }
-    }
+  a {
+    text-decoration: none;
+    color: inherit;
   }
-
 `;
 
 const CardDonation = styled.div`
   width: 100%;
-  height: 100px;
   display: flex;
-  align-items: center;
-  background-color: #C4C4C4;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-
   figure {
-    width: 100px;
-    height: 100px;
-    img { 
-      width: 100px;
-      height: 100px;
-      border-top-left-radius: 8px;
-      border-bottom-left-radius: 8px;
-    }
-  }
-
-  &:not(:last-child) {
-    margin-bottom: 24px;
-  }
-`;
-
-const InfoDonation = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  padding-left: 32px;
-  flex-direction: column;
-  justify-content: center;
-
-  div {
     img {
-      width: 24px;
-      height: 24px;
+      width: 160px;
+      object-fit: cover;
     }
   }
 `;
 
-const OptionsDonation = styled.div`
+const Separator = styled.div`
   display: flex;
+  overflow: hidden;
+  margin-bottom: 32px;
   align-items: center;
-  justify-content: center;
-
-  button {
-
-    border: none;
-    outline: none;
-    display: flex;
-    background: transparent;
-
-    &:nth-child(2) {
-      margin: 0 24px;
-    }
-
-    figure {
-      width: 24px;
-      display: flex;
-      align-items: center;
-      img {
-        width: 24px;
-        height: 24px;
-      }
-    }
-  }
+  padding: 0px 0px 32px;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(222, 222, 222);
 `;
 
-const HeaderDonation = styled.div`
+const InfoCard = styled.div`
   display: flex;
+  margin-left: 32px;
   flex-direction: column;
-
-  div {
-    display: flex;
-    align-items: center;
-    
-    label {
-      margin-top: 4px;
-      margin-left: 6px;
-    }
-  }
+  justify-content: center;
 `;
 
 export { 
-  DonationsList,
+  Status,
+  InfoCard,
+  Separator,
+  Donations,
+  TitlePage,
   CardDonation,
-  InfoDonation,
-  HeaderDonation,
-  OptionsDonation,
-  MyDonationsTitle,
+  ActiveStatus,
+  StatusDonation,
   MyDonationsContainer,
 };

@@ -14,16 +14,20 @@ const DropdownContainer = styled.nav`
 const Menu = styled.ul`
   width: 100%;
   display: flex;
+  list-style: none;
   flex-direction: column;
+
 `;
 
 const MenuItem = styled.li`
+  display: flex;
+  align-items: center;
   float: left;
   width: 100%;
   padding: 10px 0;
 
   figure {
-    margin-left: 5px;
+    margin-left: 15px;
     margin-right: 20px;
   }
 
@@ -34,9 +38,8 @@ const MenuItem = styled.li`
 `;
 
 const Separator = styled.div`
-  width: 90%;
+  width: 100%;
   height: 1px;
-  margin: 5px 0;
   overflow: hidden;
   border-top: 1px solid rgb(210, 210, 210);
 `;

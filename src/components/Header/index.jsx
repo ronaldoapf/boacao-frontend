@@ -1,70 +1,90 @@
 import { useState } from 'react';
+import { useMediaQuery } from 'react-responsive'; 
 import { Link, useHistory } from 'react-router-dom';
 
 import useAuth from 'contexts/AuthContext/useAuth';
 
-import Logo from '../Logo';
-import Container from '../Container';
+import Logo from 'components/Logo';
 import Button from 'components/Button';
 import Dropdown from 'components/Dropdown';
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
-import { Header as HeaderContainer } from './style.js';
+
+
+import { 
+  Options,
+  HeaderChild, 
+  OptionsHeader, 
+  HeaderContainer, 
+} from './style';
+
 
 const Header = () => {
-	const history = useHistory();
-  const [isOpen, setIsOpen] = useState(false);
-  const { signOut, userData, authenticated } = useAuth();
   
+	const history = useHistory();
+  const [dropdown, setDropdown] = useState(false);
+  const { signOut, userData, authenticated } = useAuth();
+
+  const isMobile = useMediaQuery({query: '(max-width: 1024px)'});
+
+  console.log(isMobile);
+
+  const sign = () => {
+    console.log('teste')
+  };
+
   return (
-    <Container>
+    <>
       <HeaderContainer>
-        <Link to="/">
-          <Logo />
-        </Link>
-        
-        <ul>
-          {!authenticated ? (
-            <li className="headerItem">
-              <Link to="/sign-in">
-                <PersonOutlineIcon />
-                Entrar
-              </Link>
-            </li>
-          ) : (
-            <>
-            {/* <li className="headerItem">
-              <Link to="/donations">
-                Minhas doações
-              </Link>
-            </li> */}
-              <li className="userDropdown headerItem" onClick={() => setIsOpen(!isOpen)}>
-                <PersonOutlineIcon />
-                <span>
-                  {userData?.name}
-                </span>
-                <figure className="chevron">
-                  <KeyboardArrowDownIcon />
-                </figure>
-              </li>
-
-              <Dropdown isOpen={isOpen}/>
-            </>
-          )}
-
-          <li className="headerItem">
-            <Button 
-              onClick={() => history.push('/donate')} 
-              variant="filled"
-            >
-              Doar
-            </Button>
-          </li>
-        </ul>
+        <HeaderChild>
+          <Link to="/">
+            <Logo />
+          </Link>
+          <OptionsHeader>
+            {!isMobile ? (
+              <>
+                {authenticated ? (
+                  <>
+                  <Options onClick={() => history.push('/donations')}>
+                    Minhas doações
+                  </Options>
+                  <Options className="" onClick={() => setDropdown(!dropdown)}>
+                    <AccountCircleIcon />
+                    <span>
+                      Ronaldo Alves
+                    </span>
+                    <KeyboardArrowDownIcon />
+                    <Dropdown 
+                      isOpen={dropdown} 
+                      signOut={signOut}
+                    />
+                  </Options>
+                  </>
+                ) : (
+                  <Options onClick={() => history.push('/sign-in')}>
+                    <AccountCircleIcon />
+                    <span>
+                      Entrar
+                    </span>
+                  </Options>
+                )}
+                <Options onClick={() => history.push('/donate')}>
+                  <Button variant="filled">
+                    Doar
+                  </Button>
+                </Options> 
+              </>
+            ) : (
+              <MenuIcon />
+            )}
+          </OptionsHeader>
+        </HeaderChild>
       </HeaderContainer>
-    </Container>
-  );
+    </>
+  )
 };
 
-export default Header; 
+
+export default Header;

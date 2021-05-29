@@ -2,7 +2,6 @@ import { Link, useHistory } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
-import useAuth from 'contexts/AuthContext/useAuth';
 
 import { 
   Menu, 
@@ -11,10 +10,9 @@ import {
   DropdownContainer
 } from './style';
 
-const Dropdown = ({ isOpen }) => {
+const Dropdown = ({ isOpen, signOut }) => {
 
 	const history = useHistory();
-  const { signOut, userData, authenticated } = useAuth();
 
   if(!isOpen) return null; 
 

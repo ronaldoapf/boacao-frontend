@@ -52,10 +52,10 @@ const App = () => {
             path="/profile" 
             component={Profile} 
           />
-          {/* <PrivateRoute 
+          <PrivateRoute 
             path='/donations'
             component={MyDonations}
-          /> */}
+          />
            <Route 
             component={PageNotFound} 
           />
