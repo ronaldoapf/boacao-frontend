@@ -6,14 +6,15 @@ import useAuth from 'contexts/AuthContext/useAuth';
 import Home from 'containers/Home';
 import Login from 'containers/Login';
 import Donate from 'containers/Donate';
-import Sandbox from 'containers/Sandbox';
 import Profile from 'containers/Profile';
+import Sandbox from 'containers/Sandbox';
 import Register from 'containers/Register';
 import Donation from 'containers/Donation';
-import UserDonations from 'containers/UserDonations';
 import MyDonations from 'containers/MyDonations';
 import PageNotFound from 'containers/PageNotFound';
+import UserDonation from 'containers/UserDonation';
 import PrivateRoute from "components/Routes/PrivateRoute";
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -40,9 +41,9 @@ const App = () => {
             path="/sandbox"
             component={Sandbox}
           />
-          <Route
-            path="/user/:nickname"
-            component={UserDonations}
+          <Route 
+            path="/user/:id" 
+            component={UserDonation} 
           />
           <PrivateRoute 
             path="/donate" 

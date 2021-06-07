@@ -57,7 +57,6 @@ const Donate = () => {
 			formData.append('file', item.file)
 		})
 		formData.append('data', JSON.stringify(rest))
-		console.log(values);
 		DonationApi.createDonation(formData).then(response => {
 			const { data, status, statusText } = response;
 			if(data) {

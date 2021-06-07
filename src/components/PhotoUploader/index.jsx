@@ -12,11 +12,8 @@ import { Container, PhotosContainer } from "./style";
 
 const PhotoUploader = ({ maxFiles, name, value, setFieldValue }) => {
 
-  console.log({ name, value })
-
   const onDrop = useCallback((files) => {
     if (value.length >= maxFiles) return;
-    console.log(value, maxFiles)
     const newFiles = [
       ...value,
       ...files.map((file) => ({
@@ -49,7 +46,6 @@ const PhotoUploader = ({ maxFiles, name, value, setFieldValue }) => {
         </div>
       )}
       {value.map((file) => {
-        console.log(file);
         return (
           <Container key={file.uuid}>
             <button className="close" onClick={() => deleteFile(file.uuid)}>

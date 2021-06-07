@@ -93,7 +93,6 @@ const MyDonations = () => {
         <Donations>
           <Container>
             {userDonations.map(donation => {
-              console.log(donation.id)
               const path = `/donation/${donation.id}`;
               return (
                 <>

@@ -29,12 +29,6 @@ const Header = () => {
 
   const isMobile = useMediaQuery({query: '(max-width: 1024px)'});
 
-  console.log(isMobile);
-
-  const sign = () => {
-    console.log('teste')
-  };
-
   return (
     <>
       <HeaderContainer>

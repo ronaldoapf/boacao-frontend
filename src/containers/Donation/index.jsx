@@ -38,7 +38,6 @@ const Donation = ({ match }) => {
     DonationApi.showSpecificDonation(match.params.id)
     .then(response => {
       const { data } = response;
-      console.log(data);
       if(data) setDonation(data);
       console.log(response);
     })
