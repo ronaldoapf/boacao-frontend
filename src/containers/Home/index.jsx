@@ -16,7 +16,7 @@ const Home = () => {
   const [lastDonations, setLastDonations] = useState([]);
 
   useEffect(() => {
-    DonationApi.listAllDonations()
+    DonationApi.listAllDonations(null, 'CREATED')
     .then(response => {
       const { data } = response;
       if(data) setLastDonations(data); 

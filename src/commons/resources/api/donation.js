@@ -17,8 +17,18 @@ const DonationApi = {
       }
     });
   },
-  listAllDonations(){
-    return api.get(baseURL);
+  listAllDonations(userId, status){
+    let query;
+    if(status && userId) {
+      query = `${baseURL}?userId=${userId}&status=${status}`;
+    }
+    else if(status && !userId) {
+      query = `${baseURL}?status=${status}`;
+    }
+    else {
+      query = `${baseURL}?userId=${userId}`;
+    }
+    return api.get(query);
   },
   showSpecificDonation(id){
     return api.get(`${baseURL}/${id}`);
@@ -30,6 +40,10 @@ const DonationApi = {
   deleteDonation(id) {
     const query = `${baseURL}/${id}`
     return api.delete(query);
+  },
+  updateDonation(id, payload) {
+    const query = `${baseURL}/${id}`
+    return api.put(query, payload);
   }
 } 
 

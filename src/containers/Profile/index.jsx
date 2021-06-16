@@ -1,9 +1,8 @@
 import {
+  useState,
   useEffect, 
-  useState
 } from "react";
 
-import get from 'lodash.get';
 import { v4 as uuid } from 'uuid';
 import { Form, Formik } from "formik";
 import { useHistory } from 'react-router-dom';
@@ -39,8 +38,22 @@ import AddressForm from "templates/AddressForm";
 import useAuth from 'contexts/AuthContext/useAuth';
 
 const Profile = () => {
+
   const history = useHistory();
   const { token, userData } = useAuth();
+  const [userDataUpdated, setUserDataUpdated] = useState(null);
+
+  useEffect(() => {
+    UserApi.listUser(userData.id)
+    .then(response => {
+      const { data } = response;
+      if(data) setUserDataUpdated(data);
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }, [])
 
   const handleSubmitData = (values) => {
     const formData = new FormData();
@@ -53,7 +66,6 @@ const Profile = () => {
     AvatarApi.create(formData).then(response => {
       console.log(response);
     })
-
     .catch(error => {
       console.log(error);
     }) 
@@ -108,14 +120,14 @@ const Profile = () => {
                 <Formik
                     initialValues={{
                       file: [
-                        ...(userData?.avatar?.url ? [{
-                          preview: userData?.avatar?.url,
+                        ...(userDataUpdated?.avatar?.url ? [{
+                          preview: userDataUpdated?.avatar?.url,
                           uuid: uuid(),
                         }] : [])
                       ],
-                      name: userData.name,
-                      email: userData.email,
-                      phone: userData.phone,
+                      name: userDataUpdated?.name,
+                      email: userDataUpdated?.email,
+                      phone: userDataUpdated?.phone,
                     }}
                     validationSchema={null}
                     onSubmit={handleSubmitData}
@@ -123,37 +135,34 @@ const Profile = () => {
                   >
                     {({ values }) => {
                       return (
-                      <Form>
-                        <PhotoUploader maxFiles={1} name="file" />
-                        <Input
-                        name="name" 
-                        label="Nome completo" 
-                        type="text" 
-                        />
-                        <Input 
-                          name="email" 
-                          label="Email" 
-                          type="email" 
-                        />
-                        <Input
-                          name="phone"
-                          label="Telefone para contato"
-                          type="text"
-                        />
-                        <Input
-                          name="password"
-                          label="Alterar senha"
-                          type="password"
-                        />
-                        <Input
-                          name="passwordConfirmation"
-                          label="Confirmar nova senha"
-                          type="password"
-                        />
-                        <Button type="submit" variant="filled">
-                          Salvar
-                        </Button>
-                      </Form>
+                        <Form>
+                          <PhotoUploader maxFiles={1} name="file" />
+                          <Input
+                            name="name" 
+                            label="Nome completo" 
+                            type="text" 
+                          />
+                          <Input 
+                            name="email" 
+                            label="Email" 
+                            type="email" 
+                          />
+                          <Input
+                            name="phone"
+                            label="Telefone para contato"
+                            type="text"
+                          />
+                          <Input
+                            name="password"
+                            label="Alterar senha"
+                            type="password"
+                          />
+                          <Input
+                            name="passwordConfirmation"
+                            label="Confirmar nova senha"
+                            type="password"
+                          />
+                        </Form>
                       )}}
                   </Formik>
               </BoxShadow>
@@ -164,15 +173,16 @@ const Profile = () => {
                 <TitleBox id="endereco">Endereço</TitleBox>
                 <Formik
                   initialValues={{
-                    file: [
-                      ...(userData?.avatar?.url ? [{
-                        preview: userData?.avatar?.url,
-                        uuid: uuid(),
-                      }] : [])
-                    ],
-                    name: userData.name,
-                    email: userData.email,
-                    phone: userData.phone,
+                    address: {
+                      uf: userDataUpdated?.address?.uf,
+                      cep: userDataUpdated?.address?.cep,
+                      city: userDataUpdated?.address?.city,
+                      number: userDataUpdated?.address?.number,
+                      address: userDataUpdated?.address?.address,
+                      reference: userDataUpdated?.address.reference,
+                      additional: userDataUpdated?.address?.additional,
+                      neighborhood: userDataUpdated?.address?.neighborhood,
+                    }
                   }}
                   validationSchema={null}
                   onSubmit={handleSubmitData}
@@ -182,6 +192,9 @@ const Profile = () => {
                     return (
                       <Form>
                         <AddressForm />
+                        <Button type="submit" variant="filled">
+                          Salvar
+                        </Button>
                       </Form>
                     )}}
                 </Formik>

@@ -49,7 +49,6 @@ const Donations = styled.section`
 `;
 
 const CardDonation = styled.div`
-  width: 100%;
   display: flex;
   figure {
     img {
@@ -70,10 +69,47 @@ const Separator = styled.div`
 `;
 
 const InfoCard = styled.div`
+  width: 50%;
   display: flex;
   margin-left: 32px;
   flex-direction: column;
   justify-content: center;
+`;
+
+const DonationOptions = styled.div`
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  a {
+    margin-right: 13px;
+  }
+
+  button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+  }
+`;
+
+const EmptyState = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  figure {
+    margin-bottom: 20px;
+  }
+
+  h1{
+    font-size: 30px;
+    text-align: center;
+    width: 400px;
+  }
 `;
 
 export { 
@@ -82,8 +118,10 @@ export {
   Separator,
   Donations,
   TitlePage,
+  EmptyState,
   CardDonation,
   ActiveStatus,
   StatusDonation,
+  DonationOptions,
   MyDonationsContainer,
 };

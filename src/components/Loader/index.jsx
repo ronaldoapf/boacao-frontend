@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import Spin from 'assets/spin.svg'
+import Spin from 'assets/svg/spin.svg'
 import { ContainerLoader } from './style'
 
 const Loader = ({ isLoading }) => {

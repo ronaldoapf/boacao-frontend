@@ -125,7 +125,7 @@ const Donate = () => {
 									name="sameRegisterAddress"
 								/>
 								{!values.sameRegisterAddress && 
-										<AddressForm />
+									<AddressForm />
 								}
 								<PhotoUploader maxFiles={1} name="file" />
 								<Button variant="filled" type="submit">
