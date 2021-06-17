@@ -1,62 +1,84 @@
-import { 
-  useState, 
-  useEffect, 
-} from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useMediaQuery } from 'react-responsive'; 
+import { Link, useHistory } from 'react-router-dom';
 
-import Logo from '../Logo';
-import Container from '../Container';
-import { 
-  Header as HeaderContainer, 
-  ExitButton
-} from './style.js';
-import Storage from 'utils/Storage';
 import useAuth from 'contexts/AuthContext/useAuth';
-import { SingleBedTwoTone } from '@material-ui/icons';
+
+import Logo from 'components/Logo';
+import Button from 'components/Button';
+import Dropdown from 'components/Dropdown';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+
+
+
+import { 
+  Options,
+  HeaderChild, 
+  OptionsHeader, 
+  HeaderContainer, 
+} from './style';
+
 
 const Header = () => {
-  const { signOut, userData, isLogged } = useAuth();
+  
+	const history = useHistory();
+  const [dropdown, setDropdown] = useState(false);
+  const { signOut, userData, authenticated } = useAuth();
 
-  const closeSession = () => {
-    signOut();
-  };
+  const isMobile = useMediaQuery({query: '(max-width: 1024px)'});
 
   return (
-    <Container>
+    <>
       <HeaderContainer>
-        <Link to="/">
-          <Logo />
-        </Link>
-        <ul>
-          <li>
-            <Link to="/donate">
-              Doar
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile">
-              Meu perfil
-            </Link>
-          </li>
-          {isLogged ? (
-            <>
-              <li>
-                <ExitButton onClick={closeSession}>
-                  Sair
-                </ExitButton>
-              </li>
-            </>
-          ) : (
-            <li>
-              <Link to="/sign-in">
-                Entrar
-              </Link>
-            </li>
-          )}
-        </ul>
+        <HeaderChild>
+          <Link to="/">
+            <Logo />
+          </Link>
+          <OptionsHeader>
+            {!isMobile ? (
+              <>
+                {authenticated ? (
+                  <>
+                  <Options onClick={() => history.push('/donations')}>
+                    Minhas doações
+                  </Options>
+                  <Options className="" onClick={() => setDropdown(!dropdown)}>
+                    <AccountCircleIcon />
+                    <span>
+                      Ronaldo Alves
+                    </span>
+                    <KeyboardArrowDownIcon />
+                    <Dropdown 
+                      isOpen={dropdown} 
+                      signOut={signOut}
+                    />
+                  </Options>
+                  </>
+                ) : (
+                  <Options onClick={() => history.push('/sign-in')}>
+                    <AccountCircleIcon />
+                    <span>
+                      Entrar
+                    </span>
+                  </Options>
+                )}
+                <Options onClick={() => history.push('/donate')}>
+                  <Button variant="filled">
+                    Doar
+                  </Button>
+                </Options> 
+              </>
+            ) : (
+              <MenuIcon />
+            )}
+          </OptionsHeader>
+        </HeaderChild>
       </HeaderContainer>
-    </Container>
-  );
+    </>
+  )
 };
 
-export default Header; 
+
+export default Header;

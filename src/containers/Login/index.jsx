@@ -23,18 +23,20 @@ import styles from './styles.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
-	const [category, setCategory] = useState([])
 	const [open, setOpen] = useState(false);
 	const [local, setLocal] = useState(false);
+	const [category, setCategory] = useState([])
 	const [redirect, setRedirect] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const history = useHistory();
-  const { signIn } = useAuth();
-
+  const { signIn, authenticated } = useAuth();
+	
 	const handleSubmit = (values) => {
-		signIn(values);
-		history.push("/");
+		setIsLoading(true);
+		setTimeout(() => {
+			signIn(values, history);
+		}, 500);
 	}	
 
 	return (
@@ -47,7 +49,6 @@ const Login = () => {
           <p>
             Por favor, informe seu e-mail para proceder com a recuperação de senha.
           </p>
-
           <Formik
 						initialValues={{}}
 						validationSchema={null}
@@ -75,7 +76,10 @@ const Login = () => {
 				<div className={styles.containerLogin}>
 					<Logo />
 					<Formik
-						initialValues={{}}
+						initialValues={{
+							email: 'ronaldo.alves.1997@gmail.com',
+							password: '12345'
+						}}
 						validationSchema={schema}
 						onSubmit={handleSubmit}
 					>

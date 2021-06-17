@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Helmet from 'react-helmet';
 
 import Header from 'components/Header';
+import BoxShadow from 'components/BoxShadow';
 import Slider from 'components/Slider';
 import Container from 'components/Container';
 import SearchAndCategories from 'components/SearchAndCategories';
@@ -15,7 +16,7 @@ const Home = () => {
   const [lastDonations, setLastDonations] = useState([]);
 
   useEffect(() => {
-    DonationApi.listAllDonations()
+    DonationApi.listAllDonations(null, 'CREATED')
     .then(response => {
       const { data } = response;
       if(data) setLastDonations(data); 
@@ -33,8 +34,8 @@ const Home = () => {
       </Helmet>
       <Header />
       <Container>
-			<ToastContainer />
-      <SearchAndCategories options={[]}/>
+        <ToastContainer />
+        <SearchAndCategories options={[]}/>
         <h4 style={{ marginTop: "32px"}}>Últimas doações</h4>
         <Slider height="450px">
           {lastDonations?.map(donation => {

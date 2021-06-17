@@ -24,6 +24,9 @@ const InputContainer = styled.div`
   position: relative;
   border-radius: 8px;
   border: 1px solid #CCCCCC;
+  ${({ disabled }) => disabled && css`
+    backgrond: #ccc;
+  `}
   input {
     flex: 1;
     font-size: 14px;

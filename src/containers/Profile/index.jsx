@@ -1,77 +1,75 @@
-import { useEffect, useState, useRef } from "react";
-import get from 'lodash.get';
+import {
+  useState,
+  useEffect, 
+} from "react";
+
+import { v4 as uuid } from 'uuid';
 import { Form, Formik } from "formik";
-import { history, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-import Modal from 'components/Modal';
-import Input from "components/Input";
-import Loader from 'components/Loader';
-import Header from "components/Header";
-import Button from "components/Button";
-import Filter from "assets/filter.svg";
-import Sidebar from "components/Sidebar";
-import Container from "components/Container";
-import Assignment from "assets/assignment.png";
-import GuardaRoupa from "assets/guardaRoupa.jpg";
-import PhotoUploader from "components/PhotoUploader";
-import EditIcon from "assets/edit.svg";
-import DeleteIcon from "assets/delete.svg";
+import Helmet from 'react-helmet';
 
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import Input from 'components/Input';
+import Button from 'components/Button';
+import Header from 'components/Header';
+import BoxShadow from 'components/BoxShadow';
+import Container from 'components/Container';
+import PhotoUploader from 'components/PhotoUploader';
 
 import UserApi from 'commons/resources/api/user';
+import AvatarApi from 'commons/resources/api/avatar';
 import DonationApi from 'commons/resources/api/donation';
-import styles from './styles.module.scss';
+
+import HomeIcon from '@material-ui/icons/Home';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 import {
-  ContainerProfile,
-  UserInformation,
-  DonationsList,
-  CardDonation,
-  InfoDonation,
-  OptionsDonation,
-  HeaderDonation,
+  Menu,
+  MenuItem,
+  UserInfo,
+  TitleBox, 
+  HeaderInfo,
+  ProfileContainer,
 } from "./style";
+
 import { toast, ToastContainer } from "react-toastify";
 
+import AddressForm from "templates/AddressForm";
 import useAuth from 'contexts/AuthContext/useAuth';
-import TextArea from "components/TextArea";
-import Select from "components/Select";
-import Checkboxes from "components/Checkboxes";
-import CategoryApi from "commons/resources/api/category";
-import { StylesProvider } from "@material-ui/styles";
 
 const Profile = () => {
-  const [filter, setFilter] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [userDonations, setUserDonations] = useState([]);
-  const [donationToDelete, setDonationToDelete] = useState(null);
-  const [modalToDelete, setModalToDelete] = useState(false);
-
 
   const history = useHistory();
   const { token, userData } = useAuth();
+  const [userDataUpdated, setUserDataUpdated] = useState(null);
 
   useEffect(() => {
-    const { id } = userData;
-    DonationApi.listDonations(id).then(response => {
+    UserApi.listUser(userData.id)
+    .then(response => {
       const { data } = response;
-      setUserDonations(data);
+      if(data) setUserDataUpdated(data);
+      console.log(response.data);
     })
+    .catch(error => {
+      console.log(error);
+    });
   }, [])
-
-  const handleFilter = () => {
-    setFilter(true);
-  };
 
   const handleSubmitData = (values) => {
     const formData = new FormData();
 		const { file, ...rest } = values ?? {};
 
-    console.log(file)
     file.map(item => {
 			formData.append('file', item.file)
 		})
+
+    AvatarApi.create(formData).then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    }) 
+
 		formData.append('data', JSON.stringify(rest))
 
     UserApi.updateData(formData, userData.id)
@@ -82,168 +80,130 @@ const Profile = () => {
       })
       .catch(err => {
         const { response } = err;
-        console.log(response);
         if(response.data.message === 'Passwords must match') toast.error('As senhas devem ser iguais');
       })
   }
 
-  const editDonation = () => {
-    alert("edit donation");
-  }
-
-  const renderModalToDelete = (id) => {
-    setModalToDelete(true);
-    setDonationToDelete(id);
-  }
-
-  const deleteDonation = (id) => {
-    setModalToDelete(false);
-    DonationApi.deleteDonation(id)
-      .then(response => {
-        const { data } = response;
-        if(data.message === 'Donation paused') toast.success('Doação finalizada com sucesso'); 
-        console.log(response)
-      })
-      .catch(err => {
-        console.log(err.response)
-      })
-  }
-
-
-
   return (
     <>
-      <Modal isOpen={modalToDelete} onClose={() => setModalToDelete(false)}>
-        <div className={styles.contentModal}>
-          <h1>
-            Excluir doação
-          </h1>
-
-          <p>
-            Deseja realmente excluir essa doação?
-          </p>
-
-          <div>
-            <Button variant="outlined" onClick={() => setModalToDelete(false)}>
-              Cancelar
-            </Button>
-
-            <Button variant="filled" onClick={() => deleteDonation(donationToDelete)}>
-              Excluir
-            </Button>
-          </div>
-        </div>
-      </Modal>
-      <Loader isLoading={isLoading}/>
-      <ToastContainer />
-      <Sidebar open={filter} onClose={() => setFilter(false)}/>
+      <Helmet>
+        <title>Perfil | Boação</title>
+      </Helmet>
       <Header />
-      <Container>
-        <ContainerProfile>
-          <UserInformation>
-            <h1>Meu Perfil</h1>
-            <Formik
-              initialValues={{
-                name: userData.name,
-                email: userData.email,
-                phone: userData.phone,
-              }}
-              validationSchema={null}
-              onSubmit={handleSubmitData}
-              enableReinitialize
-            >
-              {({ values }) => {
-                return (
-                <Form>
-                  <PhotoUploader maxFiles={1} name="file" />
-                  <Input
-                   name="name" 
-                   label="Nome completo" 
-                   type="text" 
-                  />
-                  <Input 
-                    name="email" 
-                    label="Email" 
-                    type="email" 
-                  />
-                  <Input
-                    name="phone"
-                    label="Telefone para contato"
-                    type="text"
-                  />
-                  <Input
-                    name="password"
-                    label="Alterar senha"
-                    type="password"
-                  />
-                  <Input
-                    name="passwordConfirmation"
-                    label="Confirmar nova senha"
-                    type="password"
-                  />
-                  <Button type="submit" variant="filled">
-                    Salvar
-                  </Button>
-                </Form>
-                )}}
-            </Formik>
-          </UserInformation>
-          <DonationsList>
-            <header>
-              <h1>Minhas Doações</h1>
-              <div>
-                <button onClick={handleFilter}>
-                  <img src={Filter} alt="Ícone de Filtro" />
-                </button>
+      <ProfileContainer>
+        <Container>
+          <Menu>
+            <ul>
+              <a href="#dados">
+                <MenuItem>
+                  <ListAltIcon />
+                  Dados da conta
+                </MenuItem>
+              </a>
+              <a href="#endereco">
+                <MenuItem>
+                  <HomeIcon />
+                  Endereço
+                </MenuItem>
+              </a>
+            </ul>
+          </Menu>
+          <UserInfo>
+            <HeaderInfo>
+              <h1>Meu cadastro</h1>
+              <span>Edite suas informações</span>
+            </HeaderInfo>
 
-                <Button variant="filled" onClick={() => history.push("/donate")}>
-                  Nova Doação
-                </Button>
-              </div>
-            </header>
-            {userDonations?.length === 0 && (
-              <h1>
-                O usuário não tem doações cadastradas
-              </h1>
-            )}
-            {userDonations.map(donation => {
-              console.log(donation)
-              return (
-                <>
-                <CardDonation key={donation.id}>
-                  <figure>
-                    <img src={get(donation, ['files', '0', 'url'], '')} />
-                  </figure>
-                  <InfoDonation>
-                    <HeaderDonation>
-                      <div>
-                        <img src={Assignment} alt="Ícone da Categoria" />
-                        <label>{donation?.category.title}</label>
-                      </div>
-                      <h1>{donation?.title}</h1>
-                    </HeaderDonation>
-                  </InfoDonation>
+            <div style={{ "width": "70%" }}>
+              <BoxShadow>
+                <TitleBox id="dados">Dados da conta</TitleBox>
+                <Formik
+                    initialValues={{
+                      file: [
+                        ...(userDataUpdated?.avatar?.url ? [{
+                          preview: userDataUpdated?.avatar?.url,
+                          uuid: uuid(),
+                        }] : [])
+                      ],
+                      name: userDataUpdated?.name,
+                      email: userDataUpdated?.email,
+                      phone: userDataUpdated?.phone,
+                    }}
+                    validationSchema={null}
+                    onSubmit={handleSubmitData}
+                    enableReinitialize
+                  >
+                    {({ values }) => {
+                      return (
+                        <Form>
+                          <PhotoUploader maxFiles={1} name="file" />
+                          <Input
+                            name="name" 
+                            label="Nome completo" 
+                            type="text" 
+                          />
+                          <Input 
+                            name="email" 
+                            label="Email" 
+                            type="email" 
+                          />
+                          <Input
+                            name="phone"
+                            label="Telefone para contato"
+                            type="text"
+                          />
+                          <Input
+                            name="password"
+                            label="Alterar senha"
+                            type="password"
+                          />
+                          <Input
+                            name="passwordConfirmation"
+                            label="Confirmar nova senha"
+                            type="password"
+                          />
+                        </Form>
+                      )}}
+                  </Formik>
+              </BoxShadow>
+            </div>
 
-                  <OptionsDonation>
-                    <button onClick={editDonation}>
-                      <figure>
-                        <img src={EditIcon} alt="Edição da doação" />
-                      </figure>
-                    </button>
+            <div style={{ "width": "70%" }}>
+              <BoxShadow>
+                <TitleBox id="endereco">Endereço</TitleBox>
+                <Formik
+                  initialValues={{
+                    address: {
+                      uf: userDataUpdated?.address?.uf,
+                      cep: userDataUpdated?.address?.cep,
+                      city: userDataUpdated?.address?.city,
+                      number: userDataUpdated?.address?.number,
+                      address: userDataUpdated?.address?.address,
+                      reference: userDataUpdated?.address.reference,
+                      additional: userDataUpdated?.address?.additional,
+                      neighborhood: userDataUpdated?.address?.neighborhood,
+                    }
+                  }}
+                  validationSchema={null}
+                  onSubmit={handleSubmitData}
+                  enableReinitialize
+                >
+                  {({ values }) => {
+                    return (
+                      <Form>
+                        <AddressForm />
+                        <Button type="submit" variant="filled">
+                          Salvar
+                        </Button>
+                      </Form>
+                    )}}
+                </Formik>
+              </BoxShadow>
+            </div>
 
-                    <button onClick={() => renderModalToDelete(donation.id)}>
-                      <figure>
-                        <img src={DeleteIcon} alt="Edição da doação" />
-                      </figure>
-                    </button>
-                  </OptionsDonation>
-                </CardDonation>
-                </>
-              );
-            })}
-          </DonationsList>
-        </ContainerProfile>
-      </Container>
+          </UserInfo>
+        </Container>
+      </ProfileContainer>
     </>
   );
 };

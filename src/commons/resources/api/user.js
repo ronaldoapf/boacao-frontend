@@ -12,8 +12,8 @@ const UserApi = {
     return api.put(route, payload);
   },
 
-  listUser() {
-    return api.get(`${baseURL}/1`);
+  listUser(id) {
+    return api.get(`${baseURL}/${id}`);
   }
 } 
 

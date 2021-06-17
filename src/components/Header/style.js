@@ -1,38 +1,52 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const Header = styled.header`
-  width: 100%;
+const HeaderContainer = styled.header`
+  border-bottom: 1px #eaeaea solid;
+`;
+
+const HeaderChild = styled.div`
   height: 80px;
   display: flex;
+  margin: 0 auto;
+  max-width: 1272px;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px #FEBD59 solid;
 
-  ul {
-    display: flex;
-    list-style: none;
-
-    li:not(:last-child){
-      margin-right: 27px;
-    }
-
-    a{
-      text-decoration: none;
-      color: black;
-      cursor: pointer;
+  figure {
+    img {
+      width: 120px;
     }
   }
+`;
 
-  img {
+const OptionsHeader = styled.ul`
+  display: flex;
+  list-style: none;
+  align-items: center;
+`;
+
+const Options = styled.li`
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+
+  span {
+    margin: 0 10px;
+  }
+
+  button {
     width: 100px;
+    height: 35px;
+  }
+
+  &:not(:last-child) {
+    margin-right: 40px;
   }
 `;
 
-const ExitButton = styled.button`
-  border: none;
-  outline: none;
-  font-size: 16px;
-  background: transparent;
-`;
-
-export { Header, ExitButton }
+export { 
+  Options,
+  HeaderChild, 
+  OptionsHeader, 
+  HeaderContainer, 
+};

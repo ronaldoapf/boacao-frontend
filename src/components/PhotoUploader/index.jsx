@@ -11,6 +11,7 @@ import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import { Container, PhotosContainer } from "./style";
 
 const PhotoUploader = ({ maxFiles, name, value, setFieldValue }) => {
+
   const onDrop = useCallback((files) => {
     if (value.length >= maxFiles) return;
     const newFiles = [
@@ -44,15 +45,17 @@ const PhotoUploader = ({ maxFiles, name, value, setFieldValue }) => {
           </Container>
         </div>
       )}
-      {value.map((file) => (
-        <Container key={file.uuid}>
-          <button className="close" onClick={() => deleteFile(file.uuid)}>
-            <CloseIcon />
-            <span>Excluir Imagem</span>
-          </button>
-          <img src={file.preview} alt="file" />
-        </Container>
-      ))}
+      {value.map((file) => {
+        return (
+          <Container key={file.uuid}>
+            <button className="close" onClick={() => deleteFile(file.uuid)}>
+              <CloseIcon />
+              <span>Excluir Imagem</span>
+            </button>
+            <img src={file.preview} alt="file" />
+          </Container>
+        ) 
+      })}
     </PhotosContainer>
   );
 };

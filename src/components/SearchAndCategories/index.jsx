@@ -41,7 +41,6 @@ const SearchAndCategories = ({options}) => {
         </Formik>
         <CategoryList>
           {options?.map(item => {
-            console.log(item.iconName)
             
             return (
               <Category key={item.id}>

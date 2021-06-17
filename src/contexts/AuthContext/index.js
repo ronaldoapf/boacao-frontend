@@ -19,20 +19,20 @@ const AuthProvider = ({ children }) => {
     setUserData(user);
   }, []);
 
-  const signIn = useCallback((payload) => {
+  const signIn = useCallback((payload, history) => {
     AuthApi.signIn(payload)
       .then(response => {
         const { data } = response;
         const token = data.token;
         const user = data.user;
         Storage.set('@Token', `Bearer ${token}`);
-        Storage.set('@User', JSON.stringify(user))
+        Storage.set('@User', JSON.stringify(user));
         setUserData(user);
+        history.push('/profile');
       })
       .catch(err => {
         const { response } = err;
         const message = response.data.message;
-        console.log(response);
         if(message === 'User or password are incorrect') toast.error('Usuário ou senha incorretos');
       });
   }, [])
@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
         signIn,
         signOut,
         userData,
-        isLogged: Boolean(userData)
+        authenticated: Boolean(userData)
       }}
     >
       {children}

@@ -4,7 +4,10 @@ const ContainerCheckbox = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+
+ span {
+   padding-left: 0;
+ }
 `;
 
 export { ContainerCheckbox };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import Header from 'components/Header';
+import moment from 'moment';
 import { 
   IconAndText,
   InfoDonation, 
@@ -12,18 +13,19 @@ import {
 } from './style';
 
 import get from 'lodash.get';
+import size from 'lodash.size';
 
 import DonationApi from 'commons/resources/api/donation';
 
+import User from 'assets/user.png';
 import Slider from 'components/Slider';
 import Button from 'components/Button';
 import Container from 'components/Container';
 import Assignment from 'assets/assignment.png';
-import GuardaRoupa from 'assets/guardaRoupa.jpg';
 import CardDonation from 'components/CardDonation';
+import NotAvailable from 'assets/not-available.png';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-import Ronaldo from 'assets/ronaldo.jpeg';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 
 import PlaceIcon from '@material-ui/icons/Place';
@@ -46,16 +48,24 @@ const Donation = ({ match }) => {
     })
   }, [])
 
+  console.log(donation);
   const whatsAppLink = `
     https://api.whatsapp.com/send?phone=55${get(donation, ['user', 'phone'], '')}&text=Ol%C3%A1%20${get(donation, ['user', 'name'], '')}.%20O%20item%20anunciado%20para%20doa%C3%A7%C3%A3o%20${get(donation, ['title'], '')}%20ainda%20est%C3%A1%20dispon%C3%ADvel%3F
   `
+
+  const profileLink = `/user/${donation?.user?.id}`
+  const date = donation?.createdAt;
   return (
     <>
       <Header />
       <Container>
         <DonationContainer>
           <figure>
-              <img src={get(donation, ['files', '0', 'url'], '')} alt="Imagem da doação"/>
+              {size(donation.files) !== 0 ? (
+                <img src={get(donation, ['files', '0', 'url'], '')} alt="Imagem da doação" />
+              ) : (
+                <img src={NotAvailable} alt="Sem imagem" />
+              )}
           </figure>
           <InfoDonation>
             <HeaderDonation>
@@ -81,14 +91,18 @@ const Donation = ({ match }) => {
 
               <div>
                 <figure>
-                  <AccountCircleIcon />
+                  {donation?.user?.avatar ? (
+                    <img src={donation?.user?.avatar?.url} alt="Avatar" />
+                  ) : (
+                    <img src={User} alt="Avatar sem imagem" />
+                  )}
                 </figure>
 
                 <div>
                   <label>
                     {donation?.user?.name}
                   </label>
-                  <Link to="">
+                  <Link to={profileLink}>
                     Ver perfil
                   </Link>
                 </div>
@@ -96,21 +110,34 @@ const Donation = ({ match }) => {
             </PersonalProfile>
             <IconAndText>
               <PlaceIcon />
-              <span>
-                Texto
-              </span>
+              {donation?.address ? (
+                <span>
+                  {donation?.address?.city} - {donation?.address?.uf}
+                </span>
+              ) : (
+                <span>
+                  Localização não informada
+                </span>
+              )}
+             
             </IconAndText>
             <IconAndText>
               <EventIcon />
               <span>
-                Texto
+                Publicado em {moment(date).utc().format('DD/MM/YYYY')}
               </span>
             </IconAndText>
             <IconAndText>
               <AirportShuttleIcon />
-              <span>
-                Texto
-              </span>
+              {donation?.deliveryAvailability ? (
+                <span>
+                  Disponibilidade para entrega
+                </span>
+              ) : (
+                <span>
+                  Não tem disponibilidade para entrega
+                </span>
+              )}
             </IconAndText>
 
             <a href={whatsAppLink} >
