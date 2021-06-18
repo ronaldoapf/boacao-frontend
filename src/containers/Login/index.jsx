@@ -76,10 +76,7 @@ const Login = () => {
 				<div className={styles.containerLogin}>
 					<Logo />
 					<Formik
-						initialValues={{
-							email: 'ronaldo.alves.1997@gmail.com',
-							password: '12345'
-						}}
+						initialValues={{}}
 						validationSchema={schema}
 						onSubmit={handleSubmit}
 					>
