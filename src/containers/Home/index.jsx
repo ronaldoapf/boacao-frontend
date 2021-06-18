@@ -35,7 +35,6 @@ const Home = () => {
       <Header />
       <Container>
         <ToastContainer />
-        <SearchAndCategories options={[]}/>
         <h4 style={{ marginTop: "32px"}}>Últimas doações</h4>
         <Slider height="450px">
           {lastDonations?.map(donation => {
