@@ -35,7 +35,7 @@ const Login = () => {
 	const handleSubmit = (values) => {
 		setIsLoading(true);
 		setTimeout(() => {
-			signIn(values, history);
+			signIn(values, history, setIsLoading);
 		}, 500);
 	}	
 

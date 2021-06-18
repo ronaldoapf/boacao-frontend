@@ -19,8 +19,8 @@ const AuthProvider = ({ children }) => {
     setUserData(user);
   }, []);
 
-  const signIn = useCallback((payload, history) => {
-    AuthApi.signIn(payload)
+  const signIn = useCallback((payload, history, setIsLoading) => {
+    AuthApi.signIn(payload, )
       .then(response => {
         const { data } = response;
         const token = data.token;
@@ -34,6 +34,7 @@ const AuthProvider = ({ children }) => {
         const { response } = err;
         const message = response.data.message;
         if(message === 'User or password are incorrect') toast.error('Usuário ou senha incorretos');
+        setIsLoading(false);
       });
   }, [])
 

@@ -37,6 +37,10 @@ const DonationApi = {
     const query = `${baseURL}?userId=${id}`;
     return api.get(query); 
   },
+  listDonationByCategory(category){
+    const query = `${baseURL}?status=CREATED&category=${category}`
+    return api.get(query);
+  },
   deleteDonation(id) {
     const query = `${baseURL}/${id}`
     return api.delete(query);

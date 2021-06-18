@@ -5,16 +5,17 @@ import Helmet from 'react-helmet';
 import { useHistory, Link } from 'react-router-dom';
 
 import Header from 'components/Header';
+import Loader from 'components/Loader';
 import Container from 'components/Container';
+import { toast, ToastContainer } from 'react-toastify';
 
 import EditIcon from 'assets/svg/edit.svg';
 import CheckIcon from 'assets/svg/check.svg';
-import EmptyStateIcon from 'assets/svg/empty.svg';
-import DeleteIcon from 'assets/svg/delete.svg';
-import VisibilityIcon from 'assets/svg/visibility.svg';
-
 import Assignment from 'assets/assignment.png';
+import DeleteIcon from 'assets/svg/delete.svg';
+import EmptyStateIcon from 'assets/svg/empty.svg';
 import NotAvailable from 'assets/not-available.png'
+import VisibilityIcon from 'assets/svg/visibility.svg';
 
 import useAuth from 'contexts/AuthContext/useAuth';
 import DonationApi from 'commons/resources/api/donation';
@@ -42,6 +43,7 @@ const MyDonations = () => {
     label: 'Publicados', 
     translate: 'CREATED' 
   });
+  const [isLoading, setIsLoading] = useState(false);
   const { history } = useHistory();
   const { token, userData } = useAuth();
 
@@ -64,30 +66,36 @@ const MyDonations = () => {
   }, [statusChoosen]);
 
   const deleteDonation = (id) => {
+    setIsLoading(true);
     DonationApi.deleteDonation(id)
     .then(response => {
-      console.log(response.data);
+      toast.success("Doação deletada com sucesso");
+      setIsLoading(false);
     })
     .catch(error => {
-      console.log(error.response.data);
+      setIsLoading(false);
+      toast.error("Não foi possível deletar a doação")
     })
   };
 
   const editDonation = (id) => {
-    console.log('make edit');
+    toast.error('Não foi possível realizar a edição');
   }
 
   const completedDonation = (id) => {
+    setIsLoading(true);
     const payload = {
       status: "DONATED"
     }
     DonationApi.updateDonation(id, payload)
     .then(response => {
       const { data } = response;
-      console.log(data);
+      toast.success('Item doado com sucesso');
+      setIsLoading(false);
     })
     .catch(error => {
-      console.log(error.response.data);
+      setIsLoading(false);
+      toast.error('Não foi possível finalizar a doação');
     });
   };
 
@@ -97,6 +105,8 @@ const MyDonations = () => {
         <title>Minhas doações | Boação</title>
       </Helmet>
       <Header />
+      <Loader isLoading={isLoading}/>
+      <ToastContainer />
       <MyDonationsContainer>
         <Container>
           <TitlePage>Minhas doações</TitlePage>

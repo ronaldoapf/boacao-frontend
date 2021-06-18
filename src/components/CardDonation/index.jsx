@@ -27,15 +27,23 @@ const CardDonation = ({ data }) => {
           <h1>{data?.title}</h1>
           <Info>
             <LocalShippingOutlinedIcon />
-            <span>
-              Entrega
-            </span>
+            {data?.deliveryAvailability ? (
+              <span>
+                Entrega
+              </span>
+            ) : (
+              <span>
+                Não oferece serviço de entrega
+              </span>
+            )}
           </Info>
           <Info>
             <RoomOutlinedIcon />
-            <span>
-              Uberlândia - MG
-            </span>
+              {data?.address && (
+                <span>
+                  {data?.address?.city} - {data?.address?.uf}
+                </span>
+              )}
           </Info>
         </FooterCard>
         </Link>

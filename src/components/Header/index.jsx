@@ -47,7 +47,7 @@ const Header = () => {
                   <Options className="" onClick={() => setDropdown(!dropdown)}>
                     <AccountCircleIcon />
                     <span>
-                      Ronaldo Alves
+                      {userData.name}
                     </span>
                     <KeyboardArrowDownIcon />
                     <Dropdown 

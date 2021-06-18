@@ -35,20 +35,28 @@ import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 const Donation = ({ match }) => {
   const [donation, setDonation] = useState([]);
   const [imageDonation, setImageDonation] = useState();
+  const [relationDonation, setRelationDonation] = useState();
   
   useEffect(() => {
     DonationApi.showSpecificDonation(match.params.id)
     .then(response => {
       const { data } = response;
       if(data) setDonation(data);
-      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+    DonationApi.listAllDonations(null, 'CREATED')
+    .then(response => {
+      const { data } = response;
+      if(data) setRelationDonation(data);
     })
     .catch(error => {
       console.log(error);
     })
   }, [])
 
-  console.log(donation);
   const whatsAppLink = `
     https://api.whatsapp.com/send?phone=55${get(donation, ['user', 'phone'], '')}&text=Ol%C3%A1%20${get(donation, ['user', 'name'], '')}.%20O%20item%20anunciado%20para%20doa%C3%A7%C3%A3o%20${get(donation, ['title'], '')}%20ainda%20est%C3%A1%20dispon%C3%ADvel%3F
   `
@@ -155,10 +163,14 @@ const Donation = ({ match }) => {
               Doações relacionadas
             </h1>
           </header>
-
-          <Slider>
-            <CardDonation />
-          </Slider>
+          
+          {relationDonation && (
+            <Slider>
+              {relationDonation?.map(donation => {
+                return <CardDonation key={donation} data={donation}/>
+              })}
+            </Slider>
+          )}
         </RelatedDonations>
       </Container>
     </>

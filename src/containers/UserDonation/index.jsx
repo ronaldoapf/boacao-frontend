@@ -29,17 +29,15 @@ const UserDonation = ({ match }) => {
     .then(response => {
       const { data } = response;
       if(data) setUserInfo(data);
-      console.log(response.data);
     })
     .catch(error => {
       console.log(error.response.data)
     })
 
-    DonationApi.listDonations(match.params.id)
+    DonationApi.listAllDonations(match.params.id, "CREATED")
     .then(response => {
       const { data } = response;
       if(data) setUserDonations(data);
-      console.log(response.data)
     })
     .catch(error => {
       console.log(error.response.data);

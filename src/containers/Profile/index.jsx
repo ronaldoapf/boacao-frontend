@@ -23,6 +23,8 @@ import DonationApi from 'commons/resources/api/donation';
 import HomeIcon from '@material-ui/icons/Home';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 
+import Loader from 'components/Loader';
+
 import {
   Menu,
   MenuItem,
@@ -32,15 +34,17 @@ import {
   ProfileContainer,
 } from "./style";
 
-import { toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from 'react-toastify';
 
 import AddressForm from "templates/AddressForm";
 import useAuth from 'contexts/AuthContext/useAuth';
+
 
 const Profile = () => {
 
   const history = useHistory();
   const { token, userData } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const [userDataUpdated, setUserDataUpdated] = useState(null);
 
   useEffect(() => {
@@ -56,30 +60,32 @@ const Profile = () => {
   }, [])
 
   const handleSubmitData = (values) => {
+    setIsLoading(true);
     const formData = new FormData();
 		const { file, ...rest } = values ?? {};
 
-    file.map(item => {
-			formData.append('file', item.file)
-		})
+    if(file[0].file) {
+      formData.append('file', file[0].file)
+    
+      AvatarApi.create(formData).then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      }) 
+    }
 
-    AvatarApi.create(formData).then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    }) 
-
-		formData.append('data', JSON.stringify(rest))
-
-    UserApi.updateData(formData, userData.id)
+    UserApi.updateData(rest, userData.id)
       .then(response => {
         const { data } = response;
-
+        console.log(data);
         if(data) toast.success('Alterações realizadas com sucesso');
+        setIsLoading(false);
       })
       .catch(err => {
         const { response } = err;
+        setIsLoading(false);
+        console.log(response.data);
         if(response.data.message === 'Passwords must match') toast.error('As senhas devem ser iguais');
       })
   }
@@ -89,6 +95,8 @@ const Profile = () => {
       <Helmet>
         <title>Perfil | Boação</title>
       </Helmet>
+      <ToastContainer />
+      <Loader isLoading={isLoading}/>
       <Header />
       <ProfileContainer>
         <Container>
@@ -128,6 +136,17 @@ const Profile = () => {
                       name: userDataUpdated?.name,
                       email: userDataUpdated?.email,
                       phone: userDataUpdated?.phone,
+                      address: {
+                        id: userDataUpdated?.address?.id,
+                        uf: userDataUpdated?.address?.uf,
+                        cep: userDataUpdated?.address?.cep,
+                        city: userDataUpdated?.address?.city,
+                        number: userDataUpdated?.address?.number,
+                        address: userDataUpdated?.address?.address,
+                        reference: userDataUpdated?.address?.reference,
+                        additional: userDataUpdated?.address?.additional,
+                        neighborhood: userDataUpdated?.address?.neighborhood,
+                      }
                     }}
                     validationSchema={null}
                     onSubmit={handleSubmitData}
@@ -162,12 +181,16 @@ const Profile = () => {
                             label="Confirmar nova senha"
                             type="password"
                           />
+                        <AddressForm />
+                        <Button type="submit" variant="filled">
+                          Salvar
+                        </Button>
                         </Form>
                       )}}
                   </Formik>
               </BoxShadow>
             </div>
-
+{/* 
             <div style={{ "width": "70%" }}>
               <BoxShadow>
                 <TitleBox id="endereco">Endereço</TitleBox>
@@ -179,7 +202,7 @@ const Profile = () => {
                       city: userDataUpdated?.address?.city,
                       number: userDataUpdated?.address?.number,
                       address: userDataUpdated?.address?.address,
-                      reference: userDataUpdated?.address.reference,
+                      reference: userDataUpdated?.address?.reference,
                       additional: userDataUpdated?.address?.additional,
                       neighborhood: userDataUpdated?.address?.neighborhood,
                     }
@@ -199,7 +222,7 @@ const Profile = () => {
                     )}}
                 </Formik>
               </BoxShadow>
-            </div>
+            </div> */}
 
           </UserInfo>
         </Container>

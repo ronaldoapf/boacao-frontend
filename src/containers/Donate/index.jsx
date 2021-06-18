@@ -66,7 +66,6 @@ const Donate = () => {
 			}
 		}).catch(error => {
 			const { response } = error;
-			console.log({error, response})
 			if(response.data) toast.error('Não foi possível cadastrar a doação');
 		});
 	}
